@@ -1,131 +1,124 @@
-🍬✨ Máquina de Doces Inteligente
-Simulação de Autômato Finito com Interface Interativa
-<p align="center"> <b>Projeto acadêmico de Linguagens Formais e Autômatos</b><br> Modelagem formal + Implementação prática + Animação visual </p>
-🎯 Sobre o Projeto
+# 🍬 Máquina de Doces Inteligente
 
-Esta aplicação simula o funcionamento de uma máquina de doces (Vending Machine) utilizando conceitos de:
+Simulação interativa de uma Vending Machine desenvolvida para a disciplina de Linguagens Formais e Autômatos, aplicando conceitos de Autômato Finito Determinístico (AFD) e Máquina de Mealy (Autômato com Saída) em uma interface web animada.
 
-🧠 Autômato Finito Determinístico (AFD)
+---
 
-🔁 Máquina de Mealy (Autômato com Saída)
+## 🎯 Objetivo
 
-💻 Programação Web Interativa
+O projeto tem como finalidade modelar e implementar uma máquina de doces que:
 
-O sistema combina modelagem formal da teoria da computação com uma interface animada e interativa, transformando um conceito matemático em um sistema visual real.
+- Aceita moedas específicas  
+- Atualiza o saldo dinamicamente  
+- Permite seleção de produtos por código  
+- Libera o produto quando o valor é suficiente  
+- Calcula e devolve troco automaticamente  
+- Representa formalmente um Autômato Finito  
 
-🧠 Conceito Teórico Aplicado
+---
 
-O sistema foi estruturado com base na seguinte definição formal:
+## 🧠 Fundamentação Teórica
 
-M = (Q, Σ, δ, q0, F, Δ)
+A modelagem do sistema é baseada na definição formal de um autômato:
+
+M = (Q, Σ, δ, q₀, F, Δ)
 
 Onde:
 
-Q → Conjunto de estados (representados pelo saldo acumulado)
+- Q → Conjunto de estados (representados pelo saldo acumulado)  
+- Σ → Inserção de moedas + seleção de código  
+- δ → Função de transição (atualização do saldo)  
+- q₀ → Estado inicial (saldo = 0)  
+- F → Estados finais (compra validada)  
+- Δ → Saída (produto liberado + troco)  
 
-Σ → Inserção de moedas + seleção de código
+Cada inserção de moeda representa uma transição de estado.  
+A compra representa um estado final com saída associada (produto + troco).
 
-δ → Função de transição (atualização de saldo)
+---
 
-q0 → Estado inicial (saldo = 0)
+## 💰 Sistema de Moedas
 
-F → Estados finais (compra validada)
+A máquina aceita as seguintes moedas:
 
-Δ → Saída (produto liberado + troco)
+- R$ 1  
+- R$ 2  
+- R$ 10  
+- R$ 20  
+- R$ 50  
 
-Cada inserção de moeda representa uma transição de estado.
-A compra representa um estado final com saída associada.
+Cada moeda possui seu próprio arquivo PNG dentro da pasta `IMG`, sendo utilizada tanto visualmente quanto na lógica do sistema.
 
-💰 Sistema de Moedas
+---
 
-A máquina aceita:
-
-Moeda	Valor
-🪙 moeda1.png	R$ 1
-🪙 moeda2.png	R$ 2
-🪙 moeda10.png	R$ 10
-🪙 moeda20.png	R$ 20
-🪙 moeda50.png	R$ 50
-
-📂 Estrutura:
-
-IMG/
- ├── moeda1.png
- ├── moeda2.png
- ├── moeda10.png
- ├── moeda20.png
- └── moeda50.png
-
-Cada moeda possui seu próprio PNG e animação ao ser inserida.
-
-🍫 Sistema de Produtos
+## 🍫 Produtos
 
 Cada produto contém:
 
-Código identificador
-
-Nome
-
-Preço
-
-Imagem
+- Código identificador  
+- Nome  
+- Preço  
+- Imagem  
 
 A compra é liberada quando:
 
-saldo >= precoProduto
+saldo >= preço do produto
 
-Caso o saldo seja superior ao valor, o sistema calcula e devolve o troco automaticamente.
+Caso o saldo seja superior ao valor do produto, o sistema calcula e devolve o troco automaticamente.
 
-⚙️ Funcionalidades
+---
 
-✔ Inserção animada de moedas
-✔ Atualização dinâmica do visor
-✔ Validação de código
-✔ Liberação animada do produto
-✔ Sistema automático de troco
-✔ Controle de jogadas
-✔ Efeito de vidro (Glassmorphism)
-✔ Animações suaves
-✔ Código organizado seguindo Clean Code
+## ⚙️ Funcionalidades Implementadas
 
-🎨 Interface e Design
+- Inserção animada de moedas  
+- Atualização dinâmica do visor  
+- Validação de código  
+- Liberação animada do produto na bandeja  
+- Sistema automático de troco  
+- Controle de jogadas  
+- Efeito visual de vidro (Glassmorphism)  
+- Organização do código seguindo princípios de Clean Code  
 
-O projeto foi desenvolvido com foco em:
+---
 
-🎨 Estética moderna
+## 🛠 Tecnologias Utilizadas
 
-🪟 Efeito de vidro controlado
+- HTML5  
+- CSS3 (animações e efeitos visuais)  
+- JavaScript (lógica do autômato e controle de estados)  
 
-💡 Brilho interno ajustado
+---
 
-🎞 Animações fluidas
+## 📂 Estrutura do Projeto
 
-📱 Layout organizado
+maquina-de-doces/  
+├── index.html  
+├── style.css  
+├── script.js  
+└── IMG/  
 
-A interface simula visualmente uma máquina real, proporcionando melhor experiência do usuário.
+---
 
-🛠 Tecnologias Utilizadas
-<p> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/> </p>
-📂 Estrutura do Projeto
-📦 maquina-de-doces
- ┣ 📂 IMG
- ┃ ┣ moedas
- ┃ ┣ produtos
- ┣ 📜 index.html
- ┣ 📜 style.css
- ┣ 📜 script.js
- ┗ 📜 README.md
-🔄 Fluxo de Funcionamento
+## 🔄 Fluxo de Funcionamento
 
-graph TD
-A[Estado Inicial - Saldo 0] --> B[Inserção de Moeda]
-B --> C[Atualiza Saldo]
-C --> D{Saldo >= Preço?}
-D -- Não --> B
-D -- Sim --> E[Liberar Produto]
-E --> F[Calcular Troco]
-F --> A
+1. O usuário insere moedas.  
+2. O saldo é atualizado (transição de estado).  
+3. O usuário digita o código do produto.  
+4. O sistema verifica se o saldo é suficiente.  
+5. O produto é liberado.  
+6. O troco é devolvido (se necessário).  
+7. O sistema retorna ao estado inicial.  
 
-🚀 Como Executar
+---
 
+## 🚀 Como Executar
 
+1. Clone o repositório:
+
+git clone https://github.com/seu-usuario/maquina-de-doces.git  
+
+---
+
+## 🏁 Conclusão
+
+Este projeto demonstra a aplicação prática dos conceitos de Autômatos Finitos na modelagem de sistemas reais, integrando teoria da computação, lógica de programação e interface gráfica em uma solução interativa e funcional.
