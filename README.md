@@ -83,32 +83,33 @@ Caso o saldo seja superior ao valor do produto, o sistema calcula e devolve o tr
 
 ## 🛠 Tecnologias Utilizadas
 
-- HTML5  
-- CSS3 (animações e efeitos visuais)  
-- JavaScript (lógica do autômato e controle de estados)  
+<p> <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"/> <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"/> </p> 
 
 ---
 
 ## 📂 Estrutura do Projeto
 
-maquina-de-doces/  
-├── index.html  
-├── style.css  
-├── script.js  
-└── IMG/  
+📦 maquina-de-doces
+ ┣ 📂 IMG
+ ┃ ┣ moedas
+ ┃ ┣ produtos
+ ┣ 📜 index.html
+ ┣ 📜 style.css
+ ┣ 📜 script.js
+ ┗ 📜 README.md  
 
 ---
 
 ## 🔄 Fluxo de Funcionamento
 
-1. O usuário insere moedas.  
-2. O saldo é atualizado (transição de estado).  
-3. O usuário digita o código do produto.  
-4. O sistema verifica se o saldo é suficiente.  
-5. O produto é liberado.  
-6. O troco é devolvido (se necessário).  
-7. O sistema retorna ao estado inicial.  
-
+graph TD
+A[Estado Inicial - Saldo 0] --> B[Inserção de Moeda]
+B --> C[Atualiza Saldo]
+C --> D{Saldo >= Preço?}
+D -- Não --> B
+D -- Sim --> E[Liberar Produto]
+E --> F[Calcular Troco]
+F --> A
 ---
 
 ## 🚀 Como Executar
