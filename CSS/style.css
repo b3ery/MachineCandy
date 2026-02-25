@@ -16,7 +16,7 @@ body{
   border: 6px solid;
   box-shadow: 0 0 10px #c634d3;
   border-color: #96015d;
-  margin-top:15%;
+  margin-top:25%;
   width:430px;
   background:linear-gradient(to bottom,#690099,#3d0249);
   border-radius:20px;
@@ -356,6 +356,7 @@ body{
     opacity: 1;
   }
 }
+
 
 
 
