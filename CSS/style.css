@@ -283,6 +283,33 @@ body{
   pointer-events: none;
 }
 
+/* Config do PopUp*/
+.sobreposicao{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  visibility:hidden;
+  opacity:0;
+  transition:0.3s;
+  z-index: 99999;
+}
+
+.sobreposicao.ativa{
+  visibility:visible;
+  opacity:1;
+}
+
+.popup{
+  background:black;
+  color:white;
+  padding:50px 70px;
+  border-radius:15px;
+  font-size:24px;
+  font-weight:bold;
+}
 /* Responsivel */
 
 @media (max-width: 768px){
@@ -321,3 +348,4 @@ body{
   }
 
 }
+
