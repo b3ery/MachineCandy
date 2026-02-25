@@ -115,9 +115,7 @@ F --> A
 
 ## 🚀 Como Executar
 
-1. Clone o repositório:
-
-git clone https://github.com/seu-usuario/maquina-de-doces.git  
+https://b3ery.github.io/MachineCandy/  
 
 ---
 
