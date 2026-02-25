@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Meow Candy</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="sobreposicao" id="overlay">
+  <div class="popup">
+    Miau! pegue seus docinhos.
+  </div>
+</div>
+
+<div class="maquina">
+  <div class="vidro" id="vidro"></div>
+
+  <div class="painel">
+    <div class="visor" id="visor">SALDO: R$0 | JOGADAS: 10</div>
+
+    <div class="teclado">
+      <button onclick="pressionar(1)">1</button>
+      <button onclick="pressionar(2)">2</button>
+      <button onclick="pressionar(3)">3</button>
+      <button onclick="pressionar(4)">4</button>
+      <button onclick="pressionar(5)">5</button>
+      <button onclick="pressionar(6)">6</button>
+      <button onclick="pressionar(7)">7</button>
+      <button onclick="pressionar(8)">8</button>
+      <button onclick="pressionar(9)">9</button>
+      <button onclick="apagarNumero()">←</button>
+    </div>
+
+    <button class="botao-comprar" onclick="comprar()">PEGAR DOCE</button>
+    <button class="botao-troco" onclick="devolverTroco()">DEVOLVER TROCO</button>
+  </div>
+
+  <div class="container">
+  <div class="entrada-moeda"
+       ondragover="event.preventDefault()"
+       ondrop="inserirMoeda(event)"
+       id="slotMoeda">
+  </div>
+
+  <div class="bandeja" id="bandeja" onclick="removerDoce()"></div>
+
+</div>
+</div>
+<div class="carteira" id="carteira"></div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
