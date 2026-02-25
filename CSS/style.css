@@ -8,7 +8,8 @@ body{
   background-repeat: no-repeat;  
   justify-content:center;
   align-items:center;
-  height:150vh;
+  min-height:100vh; 
+  padding:20px; 
   font-family:Arial;
 }
  
@@ -16,8 +17,9 @@ body{
   border: 6px solid;
   box-shadow: 0 0 10px #c634d3;
   border-color: #96015d;
-  margin-top:25%;
-  width:430px;
+  margin-top:0; 
+  width:100%; 
+  max-width:430px; 
   background:linear-gradient(to bottom,#690099,#3d0249);
   border-radius:20px;
   padding:20px;
@@ -32,7 +34,8 @@ body{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:15px;
-  height:400px;
+  height:350px; 
+  max-height:60vh; 
 }
 
 #vidro{
@@ -45,7 +48,7 @@ body{
   box-shadow:
     inset 0 0 20px #ffffff33,
     0 10px 30px #00000066;
-     overflow: hidden;
+  overflow: hidden;
 }
  
 /* Da efeito de transparencia*/
@@ -58,13 +61,13 @@ body{
   height:100%;
   background:linear-gradient(
     120deg,
-    #ffffff59 0%,
-    #ffffff14 40%,
+    #ffffff40 0%, 
+    #ffffff10 40%,
     #ffffff00 60%
   );
-
   pointer-events:none;
 }
+ 
  /*Anima a faixa que passa no vidro*/
 #vidro::after{
   content: "";
@@ -76,7 +79,7 @@ body{
   background: linear-gradient(
     120deg,
     transparent 0%,
-    rgba(255,255,255,0.10) 50%,
+    rgba(255,255,255,0.08) 50%, 
     transparent 100%
   );
   transform: skewX(-20deg);
@@ -98,7 +101,7 @@ body{
   border-radius:10px;
   position:relative;
   width:100%;
-  height:120px;
+  height:110px; 
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -123,13 +126,11 @@ body{
   border-radius:4px;
 }
 
-
 .produto-img{
   max-width:70%;
-  max-height:55px;
+  max-height:50px; 
   object-fit:contain;
 }
-
 
 .preco{
   position:absolute;
@@ -174,6 +175,7 @@ body{
   border-radius:5px;
   cursor:pointer;
 }
+
 .teclado button:hover{
   background:#ddd;
   transform:scale(1.05);
@@ -215,13 +217,11 @@ body{
   display: grid;
   border-color: #96015d;
   border-width: 5px;
-  grid-area: moeda;
   cursor: pointer;
   background:#333;
-  height: 70px;
-  width: 70px;
+  height: 60px; 
+  width: 60px;  
   border-radius:50%;
-  line-height:35px;
   overflow:hidden;
 }
 
@@ -229,13 +229,11 @@ body{
   transform: scale(1.05);
 }
 
-
 .bandeja{
   border: 3px solid #25035c;
   box-shadow: 0 0 8px #d171da;
   border-color: #96015d;
   background:#222;
-  grid-area: bandeja;
   display: grid;
   border-radius:8px;
   align-items:center;
@@ -243,25 +241,22 @@ body{
   color:white;
   font-size:25px;
   cursor:pointer;
-  height: 70px;
-  width: 70px;
+  height: 60px; 
+  width: 60px;  
 }
  
-
 /* Centraliza a Entrada de Moedas com a Bandeja*/
 .container{
-  display: grid;
-  grid-template-columns: repeat(2);
-  grid-template-rows: 30px 30px;
-  grid-template-areas: " moeda bandeja";
-    margin-bottom: 25px;
+  display:flex;
+  justify-content:center; 
+  gap:30px; 
+  margin-bottom: 25px;
   margin-top: 5%;
-  margin-left: 20%;
 }
 
 .carteira{
   position:fixed;
-  right:30px;
+  right:10px; 
   top:50%;
   transform:translateY(-50%);
   background:#25035c;
@@ -270,8 +265,8 @@ body{
 }
 
 .moeda {
-  width: 90px;
-  height: 90px;
+  width: 70px;
+  height: 70px; 
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -288,76 +283,41 @@ body{
   pointer-events: none;
 }
 
-/* Config do PopUp*/
-.sobreposicao{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  visibility:hidden;
-  opacity:0;
-  transition:0.3s;
-  z-index: 99999;
-}
+/* Responsivel */
 
-.sobreposicao.ativa{
-  visibility:visible;
-  opacity:1;
-}
+@media (max-width: 768px){
 
-.popup{
-  background:black;
-  color:white;
-  padding:50px 70px;
-  border-radius:15px;
-  font-size:24px;
-  font-weight:bold;
-}
-
-/* Animação da Moeda caindo*/
-.moeda-cair {
-  position: absolute;
-  top: -60px;
-  width: 40px;
-  height: 40px;
-  animation: cairMoeda 0.6s ease forwards;
-}
-
-@keyframes cairMoeda {
-  0% {
-    transform: translateX(-50%) rotate(0deg);
-    opacity: 1;
+  .maquina{
+    transform:none;
   }
-  100% {
-    transform: translateX(-50%) translateY(80px) rotate(360deg);
-    opacity: 0;
-  }
-} 
 
-/* Animação do item caindo*/
-.produto-cair {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  animation: cairProduto 0.6s ease forwards;
+  .vidro{
+    height:280px;
+  }
+
+  .slot{
+    height:95px;
+  }
+
+  .produto-img{
+    max-height:40px;
+  }
+
+  .carteira{
+    position:relative;
+    right:auto;
+    top:auto;
+    transform:none;
+    margin-top:20px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+  }
+
+  .moeda{
+    width:55px;
+    height:55px;
+  }
+
 }
-
-@keyframes cairProduto {
-  0% {
-    top: 0;
-    opacity: 1;
-  }
-  100% {
-    top: 150px;
-    opacity: 1;
-  }
-}
-
-
-
-
-
