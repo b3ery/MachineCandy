@@ -102,15 +102,16 @@ Caso o saldo seja superior ao valor do produto, o sistema calcula e devolve o tr
 
 ## 🔄 Fluxo de Funcionamento
 
+```mermaid
 graph TD
-A[Estado Inicial - Saldo 0] --> B[Inserção de Moeda]
-B --> C[Atualiza Saldo]
-C --> D{Saldo >= Preço?}
-D -- Não --> B
+A[Estado Inicial - Saldo 0] --> B[Inserir Moeda]
+B --> C[Atualizar Saldo]
+C --> D{Saldo >= Preco?}
+D -- Nao --> B
 D -- Sim --> E[Liberar Produto]
 E --> F[Calcular Troco]
 F --> A
----
+```
 
 ## 🚀 Como Executar
 
