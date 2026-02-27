@@ -8,7 +8,8 @@ const Game = {
   animando: false
 };
 
-// PRODUTOS 
+
+// PRODUTOS
 
 const produtos = {
   1: { img: "IMG/doce1.png", preco: 5 },
@@ -22,7 +23,9 @@ const produtos = {
   9: { img: "IMG/doce9.png", preco: 4 }
 };
 
+
 // ELEMENTOS
+
 
 const vidro = document.getElementById("vidro");
 const carteira = document.getElementById("carteira");
@@ -31,20 +34,18 @@ const overlay = document.getElementById("overlay");
 const bandeja = document.getElementById("bandeja");
 const slotMoeda = document.getElementById("slotMoeda");
 
-//  SONS
 
-const Sounds = {
-  moeda: new Audio("SFX/moeda.mp3"),
-  queda: new Audio("SFX/queda.mp3"),
-  compra: new Audio("SFX/compra.mp3")
-};
+// ARRASTAR
 
-function playSound(sound) {
-  sound.currentTime = 0;
-  sound.play();
-}
+slotMoeda.addEventListener("dragover", function(e){
+  e.preventDefault();
+});
 
-//  INICIALIZAÇÃO 
+slotMoeda.addEventListener("drop", inserirMoeda);
+
+
+// INICIALIZAÇÃO
+
 
 function criarSlots() {
   for (let i = 1; i <= 9; i++) {
@@ -67,7 +68,7 @@ function adicionarMoeda(valor) {
   moeda.innerHTML = `<img src="IMG/moeda${valor}.png" class="moeda-img">`;
   moeda.draggable = true;
   moeda.dataset.valor = valor;
-  moeda.ondragstart = arrastar;
+  moeda.addEventListener("dragstart", arrastar);
   carteira.appendChild(moeda);
 }
 
@@ -79,7 +80,8 @@ function gerarMoedasIniciais() {
   }
 }
 
-//  VISOR 
+==
+// VISOR
 
 function atualizarVisor(mensagem = null) {
   visor.innerText =
@@ -87,7 +89,8 @@ function atualizarVisor(mensagem = null) {
     `SALDO: R$${Game.saldo} | JOGADAS: ${Game.jogadas}`;
 }
 
-//  TECLADO 
+
+// TECLADO
 
 function pressionar(numero) {
   if (Game.animando) return;
@@ -106,6 +109,7 @@ function pressionar(numero) {
 function apagarNumero() {
   Game.codigoSelecionado =
     Game.codigoSelecionado.slice(0, -1);
+
   atualizarVisor(
     Game.codigoSelecionado
       ? `CÓDIGO: ${Game.codigoSelecionado}`
@@ -113,10 +117,14 @@ function apagarNumero() {
   );
 }
 
-//  ARRASTAR MOEDA 
+// MOEDA
+
 
 function arrastar(evento) {
-  evento.dataTransfer.setData("valor", evento.target.dataset.valor);
+  evento.dataTransfer.setData(
+    "valor",
+    evento.target.dataset.valor
+  );
   evento.target.classList.add("arrastando");
 }
 
@@ -126,19 +134,20 @@ function inserirMoeda(evento) {
   const valor = parseInt(
     evento.dataTransfer.getData("valor")
   );
+
   const moeda = document.querySelector(".arrastando");
 
   if (!moeda || isNaN(valor)) return;
 
   Game.saldo += valor;
   moeda.remove();
-  playSound(Sounds.moeda);
 
-  animarQuedaMoeda(valor);
   atualizarVisor();
 }
 
-// ANIMAÇÃO PRODUTO
+
+// ANIMAÇÃO PRODUTO 
+
 
 function animarQuedaProduto(imgSrc, callback) {
   Game.animando = true;
@@ -148,61 +157,57 @@ function animarQuedaProduto(imgSrc, callback) {
   item.className = "produto-cair-real";
   vidro.appendChild(item);
 
-  let posY = 0;
-  let velocidade = 0;
-  const gravidade = 0.9;
-
-  function cair() {
-    velocidade += gravidade;
-    posY += velocidade;
-    item.style.top = posY + "px";
-
-    if (posY >= 260) {
-      item.style.top = "260px";
-      playSound(Sounds.queda);
-
-      setTimeout(() => {
-        item.remove();
-        Game.animando = false;
-        callback();
-      }, 300);
-
-      return;
-    }
-
-    requestAnimationFrame(cair);
-  }
-
-  cair();
-}
-
-function animarQuedaMoeda(valor) {
-  const moedaAnim = document.createElement("img");
-  moedaAnim.src = `IMG/moeda${valor}.png`;
-  moedaAnim.className = "moeda-cair-real";
-  slotMoeda.appendChild(moedaAnim);
+  vidro.classList.add("ligado");
 
   let posY = 0;
   let velocidade = 0;
-  const gravidade = 0.6;
+  let rotacao = 0;
+  const gravidade = 0.85;
+  let quicadas = 0;
 
-  function cair() {
-    velocidade += gravidade;
-    posY += velocidade;
-    moedaAnim.style.top = posY + "px";
+  setTimeout(() => {
 
-    if (posY >= 20) {
-      moedaAnim.remove();
-      return;
+    function cair() {
+      velocidade += gravidade;
+      posY += velocidade;
+      rotacao += velocidade * 0.5;
+
+      item.style.top = posY + "px";
+      item.style.transform =
+        `translateX(-50%) rotate(${rotacao}deg)`;
+
+      if (posY >= 260) {
+        posY = 260;
+        velocidade *= -0.45;
+        quicadas++;
+      }
+
+      if (quicadas >= 2 &&
+          Math.abs(velocidade) < 1.2) {
+
+        item.style.top = "260px";
+
+        setTimeout(() => {
+          item.remove();
+          vidro.classList.remove("ligado");
+          Game.animando = false;
+          callback();
+        }, 300);
+
+        return;
+      }
+
+      requestAnimationFrame(cair);
     }
 
-    requestAnimationFrame(cair);
-  }
+    cair();
 
-  cair();
+  }, 350);
 }
 
-// COMPRA 
+
+// COMPRA
+
 
 function comprar() {
   if (Game.animando) return;
@@ -230,8 +235,6 @@ function comprar() {
   Game.saldo -= produto.preco;
   Game.jogadas--;
 
-  playSound(Sounds.compra);
-
   animarQuedaProduto(produto.img, () => {
     bandeja.innerHTML =
       `<img src="${produto.img}" class="produto-img">`;
@@ -242,7 +245,9 @@ function comprar() {
   atualizarVisor();
 }
 
-//  TROCO
+
+// TROCO
+
 
 function devolverTroco() {
   if (Game.saldo <= 0) {
@@ -265,13 +270,17 @@ function devolverTroco() {
   atualizarVisor("TROCO DEVOLVIDO");
 }
 
+
 // BANDEJA
+
 
 function removerDoce() {
   bandeja.innerHTML = "";
 }
 
-// POPUP 
+
+// POPUP
+
 
 function mostrarPopup() {
   overlay.classList.add("ativa");
@@ -285,7 +294,8 @@ overlay.addEventListener("click", e => {
     overlay.classList.remove("ativa");
 });
 
-//  INICIAR MAQUINA
+// INICIAR
+
 
 criarSlots();
 gerarMoedasIniciais();
