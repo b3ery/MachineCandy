@@ -1,351 +1,272 @@
-/* Configurações do Body*/
+
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
 body{
-  margin:0;
-  background-image: url("../IMG/bg-site.gif");
-  display:flex;
-  background-size: cover;        
-  background-position: center;   
-  background-repeat: no-repeat;  
-  justify-content:center;
-  align-items:center;
-  min-height:100vh; 
-  padding:20px; 
-  font-family:Arial;
-}
- 
-.maquina{
-  border: 6px solid;
-  box-shadow: 0 0 10px #c634d3;
-  border-color: #96015d;
-  margin-top:0; 
-  width:100%; 
-  max-width:430px; 
-  background:linear-gradient(to bottom,#690099,#3d0249);
-  border-radius:20px;
-  padding:20px;
-  box-shadow:0 25px 45px #00000066;
-  transform:perspective(1000px) rotateX(5deg);
-  position:relative;
+    background: linear-gradient(180deg,#ffd6eb,#ffeef7);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:100vh;
 }
 
-.vidro{
-  border-radius:12px;
-  padding:15px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  height:350px; 
-  max-height:60vh; 
-}
+/* ============================= */
+/* POPUP */
 
-#vidro{
-  position:relative;
-  background:#ffffff14;
-  backdrop-filter:blur(8px);
-  -webkit-backdrop-filter:blur(8px);
-  border:1px solid #ffffff33;
-  border-radius:15px;
-  box-shadow:
-    inset 0 0 20px #ffffff33,
-    0 10px 30px #00000066;
-  overflow: hidden;
-}
- 
-/* Da efeito de transparencia*/
-#vidro::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:linear-gradient(
-    120deg,
-    #ffffff40 0%, 
-    #ffffff10 40%,
-    #ffffff00 60%
-  );
-  pointer-events:none;
-}
- 
- /*Anima a faixa que passa no vidro*/
-#vidro::after{
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -30%;
-  width: 30%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.08) 50%, 
-    transparent 100%
-  );
-  transform: skewX(-20deg);
-  animation: brilhoSuave 8s infinite;
-  pointer-events: none;
-}
 
-@keyframes brilhoSuave{
-  0%{
-    left: -30%;
-  }
-  100%{
-    left: 120%;
-  }
-}
-
-/* Slot é a parte que os doces ficam*/
-.slot{
-  border-radius:10px;
-  position:relative;
-  width:100%;
-  height:110px; 
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  box-sizing:border-box;
-  padding:8px;
-}
-
-.numero{
-  position:absolute;
-  top:6px;
-  left:6px;
-  width:20px;
-  height:20px;
-  background:#3d0249;
-  color:white;
-  font-size:11px;
-  font-weight:bold;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:4px;
-}
-
-.produto-img{
-  max-width:70%;
-  max-height:50px; 
-  object-fit:contain;
-}
-
-.preco{
-  position:absolute;
-  bottom:6px;
-  right:6px;
-  background:#ff3b3b;
-  color:white;
-  font-size:11px;
-  font-weight:bold;
-  padding:3px 8px;
-  border-radius:4px;
-  box-shadow:0 2px 4px #0000004d;
-}
-
-.painel{
-  margin-top:15px;
-  background:#290131;
-  padding:15px;
-  border-radius:12px;
-}
-
-.visor{
-  background:black;
-  color:#00ff00;
-  height:40px;
-  line-height:40px;
-  text-align:center;
-  border-radius:5px;
-  margin-bottom:10px;
-  font-family:monospace;
-}
-
-.teclado{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
-}
-
-.teclado button{
-  padding:10px;
-  border:none;
-  border-radius:5px;
-  cursor:pointer;
-}
-
-.teclado button:hover{
-  background:#ddd;
-  transform:scale(1.05);
-}
-
-.botao-comprar,
-.botao-troco{
-  margin-top:8px;
-  width:100%;
-  padding:10px;
-  border:none;
-  border-radius:5px;
-  cursor:pointer;
-  font-weight:bold;
-  transition:0.3s;
-}
-
-.botao-comprar{
-  background:#96015d;
-  color:white;
-}
-
-.botao-comprar:hover{
-  transform:scale(1.05);
-}
-
-.botao-troco{
-  background:#4b012f;
-  color:white;
-}
-
-.botao-troco:hover{
-  transform:scale(1.05);
-}
-
-.entrada-moeda{
-  border: 3px solid;
-  box-shadow: 0 0 8px #d171da;
-  display: grid;
-  border-color: #96015d;
-  border-width: 5px;
-  cursor: pointer;
-  background:#333;
-  height: 60px; 
-  width: 60px;  
-  border-radius:50%;
-  overflow:hidden;
-}
-
-.entrada-moeda:hover{
-  transform: scale(1.05);
-}
-
-.bandeja{
-  border: 3px solid #25035c;
-  box-shadow: 0 0 8px #d171da;
-  border-color: #96015d;
-  background:#222;
-  display: grid;
-  border-radius:8px;
-  align-items:center;
-  justify-content:center;
-  color:white;
-  font-size:25px;
-  cursor:pointer;
-  height: 60px; 
-  width: 60px;  
-}
- 
-/* Centraliza a Entrada de Moedas com a Bandeja*/
-.container{
-  display:flex;
-  justify-content:center; 
-  gap:30px; 
-  margin-bottom: 25px;
-  margin-top: 5%;
-}
-
-.carteira{
-  position:fixed;
-  right:10px; 
-  top:50%;
-  transform:translateY(-50%);
-  background:#25035c;
-  padding:15px;
-  border-radius:10px;
-}
-
-.moeda {
-  width: 70px;
-  height: 70px; 
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 15px;
-  cursor: grab;
-  background: none;
-}
-
-.moeda-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
-}
-
-/* Config do PopUp*/
 .sobreposicao{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  visibility:hidden;
-  opacity:0;
-  transition:0.3s;
-  z-index: 99999;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+    z-index:999;
 }
 
 .sobreposicao.ativa{
-  visibility:visible;
-  opacity:1;
+    opacity:1;
+    pointer-events:all;
 }
 
 .popup{
-  background:black;
-  color:white;
-  padding:50px 70px;
-  border-radius:15px;
-  font-size:24px;
-  font-weight:bold;
+    background:#fff0f6;
+    padding:30px 40px;
+    border-radius:20px;
+    font-size:20px;
+    color:#ff4fa3;
+    box-shadow:0 0 20px rgba(255,0,150,0.3);
+    animation:pop 0.4s ease;
 }
-/* Responsivel */
 
-@media (max-width: 768px){
+@keyframes pop{
+    from{ transform:scale(0.6); opacity:0; }
+    to{ transform:scale(1); opacity:1; }
+}
 
-  .maquina{
-    transform:none;
-  }
 
-  .vidro{
-    height:280px;
-  }
-
-  .slot{
-    height:95px;
-  }
-
-  .produto-img{
-    max-height:40px;
-  }
-
-  .carteira{
+/* MÁQUINA */
+.maquina{
+    margin-top:40px;
+    width:420px;
+    background:#ff9ccf;
+    border-radius:35px;
+    padding:20px;
+    box-shadow:
+        inset 0 0 20px rgba(255,255,255,0.4),
+        0 20px 40px rgba(0,0,0,0.2);
     position:relative;
-    right:auto;
-    top:auto;
-    transform:none;
-    margin-top:20px;
+}
+
+
+/* VIDRO */
+
+.vidro{
+    background:#fff;
+    border-radius:25px;
+    padding:15px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    height:300px;
+    overflow:hidden;
+    position:relative;
+}
+
+.slot{
+    background:#ffe4f3;
+    border-radius:15px;
+    padding:8px;
+    text-align:center;
+    position:relative;
+    transition:0.2s;
+}
+
+.slot:hover{
+    transform:translateY(-3px);
+    box-shadow:0 6px 12px rgba(0,0,0,0.15);
+}
+
+.numero{
+    position:absolute;
+    top:5px;
+    left:5px;
+    background:#ff4fa3;
+    color:white;
+    font-size:12px;
+    padding:3px 7px;
+    border-radius:10px;
+}
+
+.preco{
+    font-size:13px;
+    margin-top:5px;
+    color:#ff4fa3;
+}
+
+.produto-img{
+    width:60px;
+    pointer-events:none;
+}
+
+/* PAINEL */
+
+
+.painel{
+    margin-top:15px;
+}
+
+.visor{
+    background:#222;
+    color:#00ff88;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+    margin-bottom:10px;
+    font-size:14px;
+    letter-spacing:1px;
+}
+
+
+/* TECLADO */
+
+
+.teclado{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+    margin-bottom:10px;
+}
+
+.teclado button{
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    background:#ff4fa3;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.teclado button:hover{
+    background:#ff2e8a;
+    transform:scale(1.05);
+}
+
+
+/* BOTÕES */
+
+
+.botao-comprar,
+.botao-troco{
+    width:100%;
+    padding:10px;
+    margin-top:6px;
+    border:none;
+    border-radius:12px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.botao-comprar{
+    background:#ff4fa3;
+    color:white;
+}
+
+.botao-comprar:hover{
+    background:#ff2e8a;
+    transform:scale(1.03);
+}
+
+.botao-troco{
+    background:#ffd6eb;
+    color:#ff4fa3;
+}
+
+.botao-troco:hover{
+    background:#ffc3e3;
+}
+
+
+/* MOEDA SLOT */
+
+
+.container{
+    margin-top:15px;
     display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.entrada-moeda{
+    width:80px;
+    height:80px;
+    background:#ffe4f3;
+    border-radius:50%;
+    border:3px dashed #ff4fa3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.bandeja{
+    width:120px;
+    height:80px;
+    background:#ffe4f3;
+    border-radius:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+}
+
+/* CARTEIRA */
+
+
+.carteira{
+    margin-top:30px;
+    display:flex;
+    gap:10px;
     flex-wrap:wrap;
     justify-content:center;
-    gap:10px;
-  }
-
-  .moeda{
-    width:55px;
-    height:55px;
-  }
-
 }
 
+.moeda{
+    cursor:grab;
+}
+
+.moeda-img{
+    width:50px;
+}
+
+/*  ANIMAÇÕES  */
+
+.produto-cair-real{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:70px;
+    pointer-events:none;
+}
+
+.moeda-cair-real{
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:40px;
+    pointer-events:none;
+}
