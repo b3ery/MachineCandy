@@ -8,13 +8,16 @@
 
 <body>
 
+<!--  OVERLAY  -->
 <div class="sobreposicao" id="overlay">
   <div class="popup">
     Miau! pegue seus docinhos.
   </div>
 </div>
 
+<!-- = MÁQUINA -->
 <div class="maquina">
+
   <div class="vidro" id="vidro"></div>
 
   <div class="painel">
@@ -38,16 +41,17 @@
   </div>
 
   <div class="container">
-  <div class="entrada-moeda"
-       ondragover="event.preventDefault()"
-       ondrop="inserirMoeda(event)"
-       id="slotMoeda">
+    <div class="entrada-moeda"
+      ondragover="event.preventDefault()"
+      ondrop="inserirMoeda(event)"
+      id="slotMoeda">
+    </div>
+
+    <div class="bandeja" id="bandeja" onclick="removerDoce()"></div>
   </div>
 
-  <div class="bandeja" id="bandeja" onclick="removerDoce()"></div>
+</div>
 
-</div>
-</div>
 <div class="carteira" id="carteira"></div>
 
 <script src="JS/script.js"></script>
