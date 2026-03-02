@@ -1,13 +1,13 @@
 
 // ESTADO DO JOGO
 
+
 const Game = {
   saldo: 0,
   codigoSelecionado: "",
   jogadas: 10,
   animando: false
 };
-
 
 // PRODUTOS
 
@@ -35,9 +35,10 @@ const bandeja = document.getElementById("bandeja");
 const slotMoeda = document.getElementById("slotMoeda");
 
 
-// ARRASTAR
+// Arrastar
 
-slotMoeda.addEventListener("dragover", function(e){
+
+slotMoeda.addEventListener("dragover", function (e) {
   e.preventDefault();
 });
 
@@ -80,8 +81,8 @@ function gerarMoedasIniciais() {
   }
 }
 
-==
 // VISOR
+
 
 function atualizarVisor(mensagem = null) {
   visor.innerText =
@@ -91,6 +92,7 @@ function atualizarVisor(mensagem = null) {
 
 
 // TECLADO
+
 
 function pressionar(numero) {
   if (Game.animando) return;
@@ -107,8 +109,7 @@ function pressionar(numero) {
 }
 
 function apagarNumero() {
-  Game.codigoSelecionado =
-    Game.codigoSelecionado.slice(0, -1);
+  Game.codigoSelecionado = Game.codigoSelecionado.slice(0, -1);
 
   atualizarVisor(
     Game.codigoSelecionado
@@ -116,6 +117,7 @@ function apagarNumero() {
       : null
   );
 }
+
 
 // MOEDA
 
@@ -145,9 +147,7 @@ function inserirMoeda(evento) {
   atualizarVisor();
 }
 
-
-// ANIMAÇÃO PRODUTO 
-
+// ANIMAÇÃO PRODUTO
 
 function animarQuedaProduto(imgSrc, callback) {
   Game.animando = true;
@@ -157,8 +157,6 @@ function animarQuedaProduto(imgSrc, callback) {
   item.className = "produto-cair-real";
   vidro.appendChild(item);
 
-  vidro.classList.add("ligado");
-
   let posY = 0;
   let velocidade = 0;
   let rotacao = 0;
@@ -166,7 +164,6 @@ function animarQuedaProduto(imgSrc, callback) {
   let quicadas = 0;
 
   setTimeout(() => {
-
     function cair() {
       velocidade += gravidade;
       posY += velocidade;
@@ -182,14 +179,11 @@ function animarQuedaProduto(imgSrc, callback) {
         quicadas++;
       }
 
-      if (quicadas >= 2 &&
-          Math.abs(velocidade) < 1.2) {
-
+      if (quicadas >= 2 && Math.abs(velocidade) < 1.2) {
         item.style.top = "260px";
 
         setTimeout(() => {
           item.remove();
-          vidro.classList.remove("ligado");
           Game.animando = false;
           callback();
         }, 300);
@@ -201,7 +195,6 @@ function animarQuedaProduto(imgSrc, callback) {
     }
 
     cair();
-
   }, 350);
 }
 
@@ -217,8 +210,7 @@ function comprar() {
     return;
   }
 
-  const produto =
-    produtos[Game.codigoSelecionado];
+  const produto = produtos[Game.codigoSelecionado];
 
   if (!produto) {
     atualizarVisor("CÓDIGO INVÁLIDO");
@@ -293,6 +285,7 @@ overlay.addEventListener("click", e => {
   if (e.target === overlay)
     overlay.classList.remove("ativa");
 });
+
 
 // INICIAR
 
