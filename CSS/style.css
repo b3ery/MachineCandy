@@ -522,16 +522,16 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .acoes { padding:8px 12px; border-bottom:1px solid #1A1E28; display:flex; flex-direction:column; gap:6px; }
 .botao-comprar { width:100%; padding:10px; border:none; border-radius:8px; cursor:pointer; background:linear-gradient(180deg,#96015d,#6a003f); color:white; font-weight:bold; font-size:.75rem; font-family:'Share Tech Mono',monospace; letter-spacing:1px; transition:.2s; box-shadow:0 3px 8px rgba(150,1,93,.4); }
 .botao-comprar:hover { background:linear-gradient(180deg,#c0017a,#8a0050); transform:scale(1.03); }
-.botao-troco { width:100%; padding:8px; border:1px solid #4a0070; border-radius:8px; cursor:pointer; background:linear-gradient(180deg,#2a003d,#1a0026); color:#c080ff; font-weight:bold; font-size:.7rem; font-family:'Share Tech Mono',monospace; letter-spacing:1px; transition:.2s; }
-.botao-troco:hover { background:linear-gradient(180deg,#3a0055,#260038); transform:scale(1.02); }
+
+
 .coin-entry-section { padding:10px 12px 8px; border-bottom:1px solid #1A1E28; }
 .entrada-moeda { width:70px; height:70px; border-radius:50%; border:4px solid var(--purple); background:#0d0016; margin:0 auto; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; box-shadow:0 0 14px rgba(177,0,255,.4),inset 0 0 15px rgba(0,0,0,.8); transition:border-color .2s,box-shadow .2s; }
 .entrada-moeda:hover { border-color:#ff00ff; box-shadow:0 0 20px rgba(255,0,255,.5),inset 0 0 15px rgba(0,0,0,.8); }
 .slot-hint { font-size:.4rem; color:rgba(177,0,255,.6); text-align:center; letter-spacing:.5px; pointer-events:none; }
 .moeda-cair-real { position:absolute; top:0; left:50%; transform:translateX(-50%); width:36px; pointer-events:none; z-index:200; }
-.panel-bottom { padding:8px 12px 10px; margin-top:auto; }
-.cancel-btn { width:100%; padding:8px; cursor:pointer; border:1px solid rgba(150,1,93,.4); border-radius:4px; background:rgba(150,1,93,.15); color:rgba(255,100,180,1); font-size:.62rem; letter-spacing:2px; font-weight:700; font-family:'Share Tech Mono',monospace; transition:.2s; }
-.cancel-btn:hover { background:rgba(150,1,93,.35); }
+
+
+
 
 /* ================================================================
    POPUP RELATÓRIO
