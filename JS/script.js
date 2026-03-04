@@ -366,38 +366,7 @@ function comprar() {
   gatoDispensa(codigo, () => {
     const bandeja = getBandeja();
     bandeja.innerHTML = `<img src="${produto.img}" class="produto-img" style="max-height:32px" onerror="this.style.opacity='.5'">`;
-
-    // Troco automático junto com o produto
-    if (Game.saldo > 0) {
-      let restante = Game.saldo;
-      Game.saldo = 0;
-      adicionarLog(`Troco automático: R$${restante}`, 'troco');
-      const ordenado = [...valoresMoeda].sort((a, b) => b - a);
-      const moedasTroco = [];
-      while (restante > 0) {
-        const moeda = ordenado.find(v => v <= restante);
-        if (!moeda) break;
-        restante -= moeda;
-        moedasTroco.push(moeda);
-      }
-      moedasTroco.forEach((v, idx) => {
-        setTimeout(() => {
-          const mc = document.createElement('img');
-          mc.src = `../IMG/moeda${v}.png`;
-          mc.style.cssText = 'max-height:26px;margin:0 2px;vertical-align:middle;';
-          mc.onerror = () => {
-            const sp = document.createElement('span');
-            sp.textContent = `R$${v}`;
-            sp.style.cssText = 'font-size:.55rem;color:#e0b0ff;padding:2px 4px;background:#2a0040;border-radius:3px;margin:1px;display:inline-block;';
-            mc.replaceWith(sp);
-          };
-          bandeja.appendChild(mc);
-          adicionarMoeda(v);
-        }, idx * 130);
-      });
-      atualizarVisor();
-    }
-
+    devolverTroco(bandeja);
     mostrarPopupMiau();
   });
 
@@ -405,11 +374,6 @@ function comprar() {
   atualizarVisor();
 }
 
-/* ================================================================
-   TROCO
-   ================================================================ */
-function devolverTroco() {
-  if (Game.saldo <= 0) { atualizarVisor("SEM SALDO"); return; }
   let restante = Game.saldo;
   Game.saldo   = 0;
   adicionarLog(`Troco devolvido: R$${restante}`, 'troco');
@@ -433,6 +397,44 @@ function removerDoce() {
     getFlap()?.classList.remove('open');
     bandeja.innerHTML = "";
   }
+}
+
+/* ================================================================
+   TROCO — chamado automaticamente após cada compra
+   ================================================================ */
+function devolverTroco(bandeja) {
+  if (Game.saldo <= 0) return;
+  let restante = Game.saldo;
+  Game.saldo = 0;
+  adicionarLog(`Troco automático: R$${restante}`, 'troco');
+
+  const ordenado = [...valoresMoeda].sort((a, b) => b - a);
+  const moedasTroco = [];
+  while (restante > 0) {
+    const moeda = ordenado.find(v => v <= restante);
+    if (!moeda) break;
+    restante -= moeda;
+    moedasTroco.push(moeda);
+  }
+
+  moedasTroco.forEach((v, idx) => {
+    setTimeout(() => {
+      if (bandeja) {
+        const mc = document.createElement('img');
+        mc.src = `../IMG/moeda${v}.png`;
+        mc.style.cssText = 'max-height:26px;margin:0 2px;vertical-align:middle;';
+        mc.onerror = () => {
+          const sp = document.createElement('span');
+          sp.textContent = `R$${v}`;
+          sp.style.cssText = 'font-size:.55rem;color:#e0b0ff;padding:2px 4px;background:#2a0040;border-radius:3px;margin:1px;display:inline-block;';
+          mc.replaceWith(sp);
+        };
+        bandeja.appendChild(mc);
+      }
+      adicionarMoeda(v);
+    }, idx * 130);
+  });
+  atualizarVisor();
 }
 
 /* ================================================================
