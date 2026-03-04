@@ -374,19 +374,6 @@ function comprar() {
   atualizarVisor();
 }
 
-  let restante = Game.saldo;
-  Game.saldo   = 0;
-  adicionarLog(`Troco devolvido: R$${restante}`, 'troco');
-
-  const ordenado = [...valoresMoeda].sort((a, b) => b - a);
-  while (restante > 0) {
-    const moeda = ordenado.find(v => v <= restante);
-    if (!moeda) break;
-    restante -= moeda;
-    adicionarMoeda(moeda);
-  }
-  atualizarVisor("TROCO DEVOLVIDO");
-}
 
 /* ================================================================
    BANDEJA
