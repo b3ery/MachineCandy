@@ -186,7 +186,7 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url('IMG/bg-site.gif');
+  background-image: url('../IMG/bg-site.gif');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
