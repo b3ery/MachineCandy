@@ -1,59 +1,234 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Meow Candy</title>
-<link rel="stylesheet" href="CSS/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meow Candy</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;600;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/style.css">
 </head>
-
 <body>
 
-<!--  OVERLAY  -->
-<div class="sobreposicao" id="overlay">
-  <div class="popup">
-    Miau! pegue seus docinhos.
-  </div>
-</div>
+  <!-- ============================================================
+       TELA DE ENTRADA
+       ============================================================ -->
+  <div class="intro-screen" id="introScreen">
 
-<!-- = MÁQUINA -->
-<div class="maquina">
+    <!-- Fundo estrelado animado -->
+    <div class="stars"></div>
+    <div class="stars2"></div>
 
-  <div class="vidro" id="vidro"></div>
+    <!-- Nuvens pixel -->
+    <div class="pixel-cloud cloud-1"></div>
+    <div class="pixel-cloud cloud-2"></div>
+    <div class="pixel-cloud cloud-3"></div>
 
-  <div class="painel">
-    <div class="visor" id="visor">SALDO: R$0 | JOGADAS: 10</div>
+    <!-- Chão pixel verde -->
+    <div class="pixel-ground"></div>
 
-    <div class="teclado">
-      <button onclick="pressionar(1)">1</button>
-      <button onclick="pressionar(2)">2</button>
-      <button onclick="pressionar(3)">3</button>
-      <button onclick="pressionar(4)">4</button>
-      <button onclick="pressionar(5)">5</button>
-      <button onclick="pressionar(6)">6</button>
-      <button onclick="pressionar(7)">7</button>
-      <button onclick="pressionar(8)">8</button>
-      <button onclick="pressionar(9)">9</button>
-      <button onclick="apagarNumero()">←</button>
+    <!-- Banco e poste decorativos -->
+    <div class="pixel-bench"></div>
+    <div class="pixel-lamp"></div>
+
+    <!-- Logo principal -->
+    <div class="intro-logo-wrap">
+      <img src="IMG/Candy_Machine.png" class="intro-logo" alt="Meow Candy Logo"
+           onerror="this.style.display='none'; document.querySelector('.intro-logo-fallback').style.display='block'">
+      <div class="intro-logo-fallback">
+        <div class="fallback-title">MEOW</div>
+        <div class="fallback-sub">CANDY</div>
+      </div>
     </div>
 
-    <button class="botao-comprar" onclick="comprar()">PEGAR DOCE</button>
-    <button class="botao-troco" onclick="devolverTroco()">DEVOLVER TROCO</button>
+    <!-- Botão START pixel -->
+    <button class="start-btn" id="startBtn" onclick="iniciarJogo()">
+      <span>START</span>
+    </button>
+
+    <!-- Texto piscando embaixo -->
+    <div class="press-start-text">PRESSIONE START PARA JOGAR</div>
+
   </div>
 
-  <div class="container">
-    <div class="entrada-moeda"
-      ondragover="event.preventDefault()"
-      ondrop="inserirMoeda(event)"
-      id="slotMoeda">
+  <!-- ============================================================
+       TELA DO JOGO
+       ============================================================ -->
+  <div class="game-screen" id="gameScreen" style="display:none;">
+
+    <!-- FUNDO LOFI NOTURNO ROXO -->
+    <div class="lofi-bg">
+      <!-- Céu noturno com degradê roxo suave -->
+      <div class="lofi-sky"></div>
+
+      <!-- Cityscape noturna (janela grande) -->
+      <div class="lofi-window">
+        <div class="lofi-city">
+          <!-- Prédios pixel art -->
+          <div class="building b1"></div>
+          <div class="building b2"></div>
+          <div class="building b3"></div>
+          <div class="building b4"></div>
+          <div class="building b5"></div>
+          <div class="building b6"></div>
+          <div class="building b7"></div>
+          <!-- Lua cheia -->
+          <div class="lofi-moon"></div>
+        </div>
+        <!-- Moldura da janela -->
+        <div class="window-frame"></div>
+        <!-- Reflexo sutil -->
+        <div class="window-glow"></div>
+      </div>
+
+      <!-- Piso do ambiente -->
+      <div class="lofi-floor"></div>
+      <div class="lofi-floor-reflection"></div>
+
+      <!-- Planta de chão -->
+      <div class="lofi-plant">
+        <div class="lp-leaves">
+          <div class="lp-leaf lp-l1"></div>
+          <div class="lp-leaf lp-l2"></div>
+          <div class="lp-leaf lp-l3"></div>
+        </div>
+        <div class="lp-pot"></div>
+      </div>
+
+      <!-- Luzes de fio penduradas -->
+      <div class="string-lights">
+        <div class="sl-wire"></div>
+        <div class="sl-bulb" style="left:10%"></div>
+        <div class="sl-bulb" style="left:22%"></div>
+        <div class="sl-bulb" style="left:34%"></div>
+        <div class="sl-bulb" style="left:46%"></div>
+        <div class="sl-bulb" style="left:58%"></div>
+        <div class="sl-bulb" style="left:70%"></div>
+        <div class="sl-bulb" style="left:82%"></div>
+        <div class="sl-bulb" style="left:92%"></div>
+      </div>
+
     </div>
 
-    <div class="bandeja" id="bandeja" onclick="removerDoce()"></div>
+    <!-- CARTEIRA DE MOEDAS -->
+    <div class="carteira" id="carteira"></div>
+
+    <!-- CENA PRINCIPAL -->
+    <div class="scene">
+
+      <!-- MÁQUINA -->
+      <main class="machine" id="machine">
+        <div class="machine-shell">
+
+          <header class="machine-header">
+            <div><div class="brand-neon">MEOW CANDY</div></div>
+            <div class="brand-cat-led">
+              <div class="led-dot"></div><div class="led-dot"></div><div class="led-dot"></div>
+            </div>
+          </header>
+
+          <section class="glass-frame" id="glassFrame">
+            <div class="shelf-light"></div>
+            <div class="glass-reflection"></div>
+            <div class="shelves" id="shelves"></div>
+            <div class="cat-actor" id="catActor" aria-hidden="true">
+              <div class="ca-ear-l"></div><div class="ca-ear-r"></div>
+              <div class="ca-head"></div><div class="ca-nose"></div>
+              <div class="ca-eye-l"></div><div class="ca-eye-r"></div>
+              <div class="ca-body"></div><div class="ca-arm"></div>
+              <div class="ca-item" id="catItem"></div>
+              <div class="ca-tail"></div>
+              <div class="ca-legs">
+                <div class="ca-leg"></div><div class="ca-leg"></div>
+                <div class="ca-leg"></div><div class="ca-leg"></div>
+              </div>
+            </div>
+          </section>
+
+          <div class="price-strip" id="priceStrip"></div>
+
+          <section class="delivery-section">
+            <div class="delivery-bin">
+              <div class="delivery-flap" id="deliveryFlap"></div>
+              <div class="delivery-inner" id="deliveryInner" onclick="removerDoce()"></div>
+            </div>
+          </section>
+
+          <div class="machine-base">
+            <div class="machine-feet">
+              <div class="foot"></div><div class="foot"></div><div class="foot"></div>
+            </div>
+          </div>
+
+        </div>
+      </main>
+
+      <!-- PAINEL LATERAL -->
+      <aside class="side-panel">
+        <div class="terminal-brand">
+          <div class="terminal-brand-led"></div>
+          <div class="terminal-brand-name">MEOW PAY</div>
+        </div>
+        <div class="visor-wrap">
+          <div class="visor" id="visor">SALDO: R$0 | JOGADAS: 10</div>
+        </div>
+        <section class="pay-section">
+          <div class="pay-section-title">▸ CÓDIGO DO PRODUTO</div>
+          <div class="teclado">
+            <button onclick="pressionar(1)">1</button>
+            <button onclick="pressionar(2)">2</button>
+            <button onclick="pressionar(3)">3</button>
+            <button onclick="pressionar(4)">4</button>
+            <button onclick="pressionar(5)">5</button>
+            <button onclick="pressionar(6)">6</button>
+            <button onclick="pressionar(7)">7</button>
+            <button onclick="pressionar(8)">8</button>
+            <button onclick="pressionar(9)">9</button>
+            <button class="btn-apagar" onclick="apagarNumero()">←</button>
+          </div>
+        </section>
+        <div class="acoes">
+          <button class="botao-comprar" onclick="comprar()">🍬 PEGAR DOCE</button>
+          <button class="botao-troco" onclick="devolverTroco()">↩ DEVOLVER TROCO</button>
+        </div>
+        <section class="coin-entry-section">
+          <div class="pay-section-title">▸ INSERIR MOEDA</div>
+          <div class="entrada-moeda" id="slotMoeda"
+               ondragover="event.preventDefault()" ondrop="inserirMoeda(event)">
+            <span class="slot-hint">⬇ ARRASTE</span>
+          </div>
+        </section>
+        <div class="panel-bottom">
+          <button class="cancel-btn" onclick="devolverTroco()">⏎ DEVOLVER TROCO</button>
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- POPUP RELATÓRIO -->
+    <div class="popup-overlay" id="popupOverlay" aria-hidden="true">
+      <div class="popup-box">
+        <header class="popup-head">
+          <div>
+            <div class="popup-title">TRANSAÇÃO CONCLUÍDA</div>
+            <div class="popup-sub">RELATÓRIO DA COMPRA — MEOW CANDY</div>
+          </div>
+          <div style="font-size:2rem">🐾</div>
+        </header>
+        <div class="popup-body" id="popupBody"></div>
+        <footer class="popup-foot">
+          <button class="popup-btn close-btn" onclick="closePopup()">FECHAR</button>
+          <button class="popup-btn restart" onclick="restartMachine()">↺ NOVA COMPRA</button>
+        </footer>
+      </div>
+    </div>
+
+    <!-- OVERLAY MIAU -->
+    <div class="sobreposicao" id="overlayMiau">
+      <div class="popup-miau">🐱 Miau! Pegue seus docinhos.</div>
+    </div>
+
   </div>
 
-</div>
-
-<div class="carteira" id="carteira"></div>
-
-<script src="JS/script.js"></script>
+  <script src="JS/script.js"></script>
 </body>
 </html>
