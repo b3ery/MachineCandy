@@ -13,15 +13,15 @@ const Game = {
    PRODUTOS
    ================================================================ */
 const produtos = {
-  1: { img: "../IMG/doce1.png", preco: 5,  nome: "Doce 1" },
-  2: { img: "../IMG/doce2.png", preco: 7,  nome: "Doce 2" },
-  3: { img: "../IMG/doce3.png", preco: 6,  nome: "Doce 3" },
-  4: { img: "../IMG/doce4.png", preco: 4,  nome: "Doce 4" },
-  5: { img: "../IMG/doce5.png", preco: 8,  nome: "Doce 5" },
-  6: { img: "../IMG/doce6.png", preco: 9,  nome: "Doce 6" },
-  7: { img: "../IMG/doce7.png", preco: 3,  nome: "Doce 7" },
-  8: { img: "../IMG/doce8.png", preco: 6,  nome: "Doce 8" },
-  9: { img: "../IMG/doce9.png", preco: 4,  nome: "Doce 9" }
+  1: { img: "IMG/doce1.png", preco: 5,  nome: "Doce 1" },
+  2: { img: "IMG/doce2.png", preco: 7,  nome: "Doce 2" },
+  3: { img: "IMG/doce3.png", preco: 6,  nome: "Doce 3" },
+  4: { img: "IMG/doce4.png", preco: 4,  nome: "Doce 4" },
+  5: { img: "IMG/doce5.png", preco: 8,  nome: "Doce 5" },
+  6: { img: "IMG/doce6.png", preco: 9,  nome: "Doce 6" },
+  7: { img: "IMG/doce7.png", preco: 3,  nome: "Doce 7" },
+  8: { img: "IMG/doce8.png", preco: 6,  nome: "Doce 8" },
+  9: { img: "IMG/doce9.png", preco: 4,  nome: "Doce 9" }
 };
 
 const valoresMoeda = [1, 2, 10, 20, 50];
@@ -118,7 +118,7 @@ function adicionarMoeda(valor) {
   moeda.className = "moeda";
   moeda.draggable = true;
   moeda.dataset.valor = valor;
-  moeda.innerHTML = `<img src="../IMG/moeda${valor}.png" class="moeda-img" 
+  moeda.innerHTML = `<img src="IMG/moeda${valor}.png" class="moeda-img" 
     onerror="this.parentElement.innerHTML='<div style=\\'width:52px;height:52px;border-radius:50%;background:radial-gradient(circle,#e080ff,#7a00b3);border:2px solid #b100ff;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:bold;\\'>R$${valor}</div>'">`;
   moeda.addEventListener("dragstart", arrastar);
   moeda.addEventListener("dragend",   () => moeda.classList.remove("arrastando"));
@@ -421,7 +421,7 @@ function devolverTroco(bandeja) {
     setTimeout(() => {
       if (bandeja) {
         const mc = document.createElement('img');
-        mc.src = `../IMG/moeda${v}.png`;
+        mc.src = `IMG/moeda${v}.png`;
         mc.style.cssText = 'max-height:26px;margin:0 2px;vertical-align:middle;';
         mc.onerror = () => {
           const sp = document.createElement('span');
