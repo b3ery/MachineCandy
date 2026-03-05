@@ -522,6 +522,8 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .acoes { padding:8px 12px; border-bottom:1px solid #1A1E28; display:flex; flex-direction:column; gap:6px; }
 .botao-comprar { width:100%; padding:10px; border:none; border-radius:8px; cursor:pointer; background:linear-gradient(180deg,#96015d,#6a003f); color:white; font-weight:bold; font-size:.75rem; font-family:'Share Tech Mono',monospace; letter-spacing:1px; transition:.2s; box-shadow:0 3px 8px rgba(150,1,93,.4); }
 .botao-comprar:hover { background:linear-gradient(180deg,#c0017a,#8a0050); transform:scale(1.03); }
+.botao-finalizar { width:100%; padding:10px; border:1px solid #4a0070; border-radius:8px; cursor:pointer; background:linear-gradient(180deg,#1e0040,#130028); color:#c080ff; font-weight:bold; font-size:.75rem; font-family:'Share Tech Mono',monospace; letter-spacing:1px; transition:.2s; box-shadow:0 3px 8px rgba(80,0,150,.3); }
+.botao-finalizar:hover { background:linear-gradient(180deg,#2e0060,#1e0040); border-color:#b100ff; color:#e0b0ff; transform:scale(1.02); }
 
 
 .coin-entry-section { padding:10px 12px 8px; border-bottom:1px solid #1A1E28; }
