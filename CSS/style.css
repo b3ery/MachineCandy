@@ -453,7 +453,12 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .slot-label { position:absolute; bottom:0; font-size:.36rem; color:rgba(200,100,255,.3); letter-spacing:.5px; z-index:5; }
 .slot-num { position:absolute; top:4px; left:4px; width:16px; height:16px; background:#3d0249; color:#fff; font-size:9px; font-weight:bold; display:flex; align-items:center; justify-content:center; border-radius:3px; z-index:10; }
 .produto-img { max-width:70%; max-height:52px; object-fit:contain; z-index:8; margin-bottom:14px; display:block; }
+
+.slot-estoque { position:absolute; top:4px; right:4px; font-size:7px; color:rgba(177,0,255,.7); font-weight:bold; z-index:10; }
+.slot.esgotado { opacity:.6; pointer-events:none; }
 .slot-preco { position:absolute; bottom:14px; right:2px; background:#ff3b3b; color:#fff; font-size:8px; font-weight:bold; padding:1px 3px; border-radius:3px; z-index:10; }
+.slot-estoque { position:absolute; top:4px; right:4px; font-size:7px; color:rgba(177,0,255,.7); font-weight:bold; z-index:10; }
+.slot.esgotado { opacity:.6; pointer-events:none; }
 .produto-cair-real { position:absolute; top:0; left:50%; transform:translateX(-50%); width:50px; pointer-events:none; z-index:100; }
 
 /* Gato */
@@ -522,6 +527,8 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .acoes { padding:8px 12px; border-bottom:1px solid #1A1E28; display:flex; flex-direction:column; gap:6px; }
 .botao-comprar { width:100%; padding:10px; border:none; border-radius:8px; cursor:pointer; background:linear-gradient(180deg,#96015d,#6a003f); color:white; font-weight:bold; font-size:.75rem; font-family:'Share Tech Mono',monospace; letter-spacing:1px; transition:.2s; box-shadow:0 3px 8px rgba(150,1,93,.4); }
 .botao-comprar:hover { background:linear-gradient(180deg,#c0017a,#8a0050); transform:scale(1.03); }
+.botao-finalizar { width:100%; padding:10px; border:1px solid #4a0070; border-radius:8px; cursor:pointer; background:linear-gradient(180deg,#1e0040,#130028); color:#c080ff; font-weight:bold; font-size:.75rem; font-family:'Share Tech Mono',monospace; letter-spacing:1px; transition:.2s; box-shadow:0 3px 8px rgba(80,0,150,.3); }
+.botao-finalizar:hover { background:linear-gradient(180deg,#2e0060,#1e0040); border-color:#b100ff; color:#e0b0ff; transform:scale(1.02); }
 .botao-finalizar { width:100%; padding:10px; border:1px solid #4a0070; border-radius:8px; cursor:pointer; background:linear-gradient(180deg,#1e0040,#130028); color:#c080ff; font-weight:bold; font-size:.75rem; font-family:'Share Tech Mono',monospace; letter-spacing:1px; transition:.2s; box-shadow:0 3px 8px rgba(80,0,150,.3); }
 .botao-finalizar:hover { background:linear-gradient(180deg,#2e0060,#1e0040); border-color:#b100ff; color:#e0b0ff; transform:scale(1.02); }
 
