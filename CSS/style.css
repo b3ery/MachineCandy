@@ -97,71 +97,7 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 /* ================================================================
    FUNDO — bg-site.gif
    ================================================================ */
-.lofi-bg {
-  position: fixed; inset: 0; z-index: 0;
-  background: #0c0018;
-  overflow: hidden;
-}
-
-/* GIF de fundo */
-.lofi-bg::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: url('IMG/bg-site.gif');
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  z-index: 0;
-  filter: brightness(0.75) saturate(1.1);
-}
-
-/* Overlay escuro roxo suave */
-.lofi-bg::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(5,0,15,0.30) 0%,
-    rgba(10,0,25,0.15) 40%,
-    rgba(8,0,20,0.20) 70%,
-    rgba(12,0,28,0.60) 100%
-  );
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Elementos decorativos acima do GIF */
-.lofi-sky,
-.lofi-plant,
-.string-lights,
-.shelf { position: absolute; z-index: 2; }
-
-/* Esconde os elementos CSS que o GIF já substitui */
-.lofi-window,
-.lofi-city,
-.lofi-moon,
-.building,
-.window-frame,
-.window-glow,
-.lofi-floor,
-.lofi-floor-reflection { display: none; }
-
-/* Luzes de fio */
-.string-lights { top:3%; left:0; right:0; height:40px; pointer-events:none; }
-.sl-wire { position:absolute; top:8px; left:0; right:0; height:1px; background:rgba(80,0,150,.4); }
-.sl-bulb { position:absolute; top:0; width:10px; height:14px; background:radial-gradient(circle at 50% 40%,#ffe0ff,#cc60ff 60%,#7a00b3); border-radius:50% 50% 40% 40%; box-shadow:0 0 6px rgba(200,100,255,.6),0 0 14px rgba(177,0,255,.3); animation:bulbFlicker 4s ease-in-out infinite; }
-.sl-bulb:nth-child(odd)  { animation-delay:.5s; }
-.sl-bulb:nth-child(3n)   { animation-delay:1.2s; background:radial-gradient(circle at 50% 40%,#ffffd0,#ffcc40 60%,#cc8800); box-shadow:0 0 6px rgba(255,200,60,.6),0 0 14px rgba(255,160,0,.3); }
-@keyframes bulbFlicker { 0%,90%,100%{opacity:1}92%{opacity:.4}95%{opacity:1}97%{opacity:.6} }
-
-/* Planta de chão */
-.lofi-plant { bottom:115px; left:3%; display:flex; flex-direction:column; align-items:center; }
-.lp-leaves { position:relative; width:60px; height:70px; margin-bottom:-4px; }
-.lp-leaf   { position:absolute; border-radius:50% 5px 50% 5px; transform-origin:bottom center; }
-.lp-l1 { width:22px; height:42px; background:linear-gradient(160deg,#3a0060,#1a0030); bottom:0; left:4px; transform:rotate(-30deg); }
-.lp-l2 { width:20px; height:38px; background:linear-gradient(160deg,#4a0080,#280045); bottom:0; left:20px; transform:rotate(5deg); }
-.lp-l3 { width:18px; height:35px; background:linear-gradient(160deg,#3a0060,#1a0030); bottom:0; left:34px; transform:rotate(32deg); }
-.lp-pot { width:40px; height:32px; background:linear-gradient(160deg,#2a0045,#150025); border-radius:3px 3px 8px 8px; border:1px solid #4a0070; }
+.lofi-bg { position:fixed;inset:0;z-index:0;overflow:hidden;background:#0c0018 url('IMG/bg-site.gif') center/cover no-repeat; }
 
 /* ================================================================
    CENA E CARTEIRA
