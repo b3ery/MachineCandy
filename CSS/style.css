@@ -28,14 +28,9 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
   overflow: hidden;
   transition: opacity .8s ease, transform .8s ease;
 }
-.intro-screen.fade-out {
-  opacity: 0; transform: scale(1.05); pointer-events: none;
-}
+.intro-screen.fade-out { opacity: 0; transform: scale(1.05); pointer-events: none; }
 
-/* Estrelas */
-.stars, .stars2 {
-  position: absolute; inset: 0; pointer-events: none;
-}
+.stars, .stars2 { position: absolute; inset: 0; pointer-events: none; }
 .stars  { background: radial-gradient(1px 1px at 10% 15%, #fff 100%, transparent),
                        radial-gradient(1px 1px at 25% 8%, #ddd 100%, transparent),
                        radial-gradient(1px 1px at 40% 20%, #fff 100%, transparent),
@@ -60,121 +55,47 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
           animation: twinkle 3s ease-in-out infinite alternate-reverse; }
 @keyframes twinkle { 0%{opacity:.5}100%{opacity:1} }
 
-/* Nuvens pixel */
-.pixel-cloud {
-  position: absolute;
-  image-rendering: pixelated;
-  background: #c080ff;
-  border-radius: 4px;
-  opacity: .35;
-}
-.cloud-1 { width:80px; height:24px; top:12%; left:8%; box-shadow:8px -8px 0 #c080ff, 16px -8px 0 #c080ff, 24px -8px 0 #c080ff, 32px -16px 0 #c080ff, 40px -16px 0 #c080ff, 48px -8px 0 #c080ff, 56px -8px 0 #c080ff, 16px -16px 0 #c080ff; animation:cloudFloat 18s linear infinite; }
-.cloud-2 { width:60px; height:20px; top:18%; right:12%; box-shadow:8px -8px 0 #e0a0ff, 16px -8px 0 #e0a0ff, 24px -16px 0 #e0a0ff, 32px -8px 0 #e0a0ff, 40px -8px 0 #e0a0ff; opacity:.25; animation:cloudFloat 24s linear infinite reverse; }
-.cloud-3 { width:50px; height:16px; top:8%; left:55%; box-shadow:8px -8px 0 #d090ff, 16px -8px 0 #d090ff, 24px -8px 0 #d090ff, 32px -8px 0 #d090ff; opacity:.3; animation:cloudFloat 20s linear infinite; }
+.pixel-cloud { position:absolute; image-rendering:pixelated; background:#c080ff; border-radius:4px; opacity:.35; }
+.cloud-1 { width:80px; height:24px; top:12%; left:8%; box-shadow:8px -8px 0 #c080ff,16px -8px 0 #c080ff,24px -8px 0 #c080ff,32px -16px 0 #c080ff,40px -16px 0 #c080ff,48px -8px 0 #c080ff,56px -8px 0 #c080ff,16px -16px 0 #c080ff; animation:cloudFloat 18s linear infinite; }
+.cloud-2 { width:60px; height:20px; top:18%; right:12%; box-shadow:8px -8px 0 #e0a0ff,16px -8px 0 #e0a0ff,24px -16px 0 #e0a0ff,32px -8px 0 #e0a0ff,40px -8px 0 #e0a0ff; opacity:.25; animation:cloudFloat 24s linear infinite reverse; }
+.cloud-3 { width:50px; height:16px; top:8%; left:55%; box-shadow:8px -8px 0 #d090ff,16px -8px 0 #d090ff,24px -8px 0 #d090ff,32px -8px 0 #d090ff; opacity:.3; animation:cloudFloat 20s linear infinite; }
 @keyframes cloudFloat { 0%{transform:translateX(0)}100%{transform:translateX(60px)} }
 
-/* Chão pixel */
-.pixel-ground {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
-  background: linear-gradient(180deg, #1a0030 0%, #0d0020 100%);
-  border-top: 4px solid #4a0070;
-}
-.pixel-ground::before {
-  content:''; position:absolute; top:-12px; left:0; right:0; height:12px;
-  background: repeating-linear-gradient(90deg, #5a0080 0, #5a0080 16px, #3a0050 16px, #3a0050 32px);
-  image-rendering: pixelated;
-}
+.pixel-ground { position:absolute; bottom:0; left:0; right:0; height:80px; background:linear-gradient(180deg,#1a0030 0%,#0d0020 100%); border-top:4px solid #4a0070; }
+.pixel-ground::before { content:''; position:absolute; top:-12px; left:0; right:0; height:12px; background:repeating-linear-gradient(90deg,#5a0080 0,#5a0080 16px,#3a0050 16px,#3a0050 32px); image-rendering:pixelated; }
 
-/* Banco pixel decorativo */
-.pixel-bench {
-  position: absolute; bottom: 72px; left: 18%;
-  width: 80px; height: 40px;
-}
-.pixel-bench::before {
-  content:''; position:absolute; top:0; left:4px; right:4px; height:10px;
-  background: #8B4513;
-  box-shadow: 0 4px 0 #6B3410, 0 8px 0 #8B4513, 0 12px 0 #6B3410;
-}
-.pixel-bench::after {
-  content:''; position:absolute; bottom:0; left:6px; width:6px; height:20px;
-  background: #8B4513;
-  box-shadow: 62px 0 0 #8B4513;
-}
+.pixel-bench { position:absolute; bottom:72px; left:18%; width:80px; height:40px; }
+.pixel-bench::before { content:''; position:absolute; top:0; left:4px; right:4px; height:10px; background:#8B4513; box-shadow:0 4px 0 #6B3410,0 8px 0 #8B4513,0 12px 0 #6B3410; }
+.pixel-bench::after { content:''; position:absolute; bottom:0; left:6px; width:6px; height:20px; background:#8B4513; box-shadow:62px 0 0 #8B4513; }
 
-/* Poste pixel */
-.pixel-lamp {
-  position: absolute; bottom: 72px; left: 14%;
-  width: 8px; height: 60px;
-  background: #7a00b3;
-}
-.pixel-lamp::before {
-  content:''; position:absolute; top:-8px; left:-20px; width:30px; height:8px;
-  background: #7a00b3;
-}
-.pixel-lamp::after {
-  content:''; position:absolute; top:-16px; left:-18px; width:10px; height:8px;
-  background: #ffee88;
-  box-shadow: 0 0 12px 4px rgba(255,238,136,.5), 0 0 24px 8px rgba(255,200,100,.2);
-}
+.pixel-lamp { position:absolute; bottom:72px; left:14%; width:8px; height:60px; background:#7a00b3; }
+.pixel-lamp::before { content:''; position:absolute; top:-8px; left:-20px; width:30px; height:8px; background:#7a00b3; }
+.pixel-lamp::after { content:''; position:absolute; top:-16px; left:-18px; width:10px; height:8px; background:#ffee88; box-shadow:0 0 12px 4px rgba(255,238,136,.5),0 0 24px 8px rgba(255,200,100,.2); }
 
-/* Logo */
-.intro-logo-wrap {
-  position: relative; z-index: 10;
-  margin-bottom: 30px;
-  animation: logoFloat 3s ease-in-out infinite;
-}
+.intro-logo-wrap { position:relative; z-index:10; margin-bottom:30px; animation:logoFloat 3s ease-in-out infinite; }
 @keyframes logoFloat { 0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)} }
-.intro-logo { width: 360px; max-width: 85vw; display: block; }
-.intro-logo-fallback {
-  display: none; text-align: center;
-  font-family: 'Press Start 2P', monospace;
-}
-.fallback-title { font-size: 4rem; color: #8800cc; text-shadow: 4px 4px 0 #4a0070, 0 0 30px rgba(177,0,255,.6); }
-.fallback-sub   { font-size: 1.2rem; color: #fff; letter-spacing: 8px; margin-top: 8px; }
+.intro-logo { width:360px; max-width:85vw; display:block; }
+.intro-logo-fallback { display:none; text-align:center; font-family:'Press Start 2P',monospace; }
+.fallback-title { font-size:4rem; color:#8800cc; text-shadow:4px 4px 0 #4a0070,0 0 30px rgba(177,0,255,.6); }
+.fallback-sub   { font-size:1.2rem; color:#fff; letter-spacing:8px; margin-top:8px; }
 
-/* Botão START pixel */
-.start-btn {
-  position: relative; z-index: 10;
-  padding: 14px 40px;
-  background: linear-gradient(180deg, #ffcc00 0%, #ff8800 60%, #ff4400 100%);
-  border: none; border-radius: 4px; cursor: pointer;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 1.1rem; color: #4a0070;
-  letter-spacing: 3px;
-  image-rendering: pixelated;
-  box-shadow:
-    0 4px 0 #cc4400,
-    0 8px 0 #aa3300,
-    inset 0 2px 0 rgba(255,255,200,.4),
-    0 0 20px rgba(255,150,0,.4);
-  transition: transform .1s, box-shadow .1s;
-  animation: btnPulse 1.5s ease-in-out infinite;
-}
-.start-btn:hover { transform: translateY(2px); box-shadow: 0 2px 0 #cc4400, 0 4px 0 #aa3300, inset 0 2px 0 rgba(255,255,200,.4), 0 0 30px rgba(255,150,0,.6); }
-.start-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #cc4400, inset 0 2px 0 rgba(255,255,200,.4); }
+.start-btn { position:relative; z-index:10; padding:14px 40px; background:linear-gradient(180deg,#ffcc00 0%,#ff8800 60%,#ff4400 100%); border:none; border-radius:4px; cursor:pointer; font-family:'Press Start 2P',monospace; font-size:1.1rem; color:#4a0070; letter-spacing:3px; box-shadow:0 4px 0 #cc4400,0 8px 0 #aa3300,inset 0 2px 0 rgba(255,255,200,.4),0 0 20px rgba(255,150,0,.4); transition:transform .1s,box-shadow .1s; animation:btnPulse 1.5s ease-in-out infinite; }
+.start-btn:hover { transform:translateY(2px); box-shadow:0 2px 0 #cc4400,0 4px 0 #aa3300,inset 0 2px 0 rgba(255,255,200,.4),0 0 30px rgba(255,150,0,.6); }
+.start-btn:active { transform:translateY(4px); box-shadow:0 1px 0 #cc4400,inset 0 2px 0 rgba(255,255,200,.4); }
 @keyframes btnPulse { 0%,100%{box-shadow:0 4px 0 #cc4400,0 8px 0 #aa3300,inset 0 2px 0 rgba(255,255,200,.4),0 0 20px rgba(255,150,0,.4)}50%{box-shadow:0 4px 0 #cc4400,0 8px 0 #aa3300,inset 0 2px 0 rgba(255,255,200,.4),0 0 40px rgba(255,150,0,.7)} }
 
-/* Texto piscando */
-.press-start-text {
-  margin-top: 24px; font-family: 'Press Start 2P', monospace;
-  font-size: .5rem; color: rgba(200,150,255,.7);
-  letter-spacing: 2px; animation: blinkText 1.2s step-end infinite;
-}
+.press-start-text { margin-top:24px; font-family:'Press Start 2P',monospace; font-size:.5rem; color:rgba(200,150,255,.7); letter-spacing:2px; animation:blinkText 1.2s step-end infinite; }
 @keyframes blinkText { 0%,100%{opacity:1}50%{opacity:0} }
 
 /* ================================================================
    TELA DO JOGO
    ================================================================ */
-.game-screen {
-  position: fixed; inset: 0;
-  display: flex; align-items: flex-end; justify-content: center;
-  overflow: hidden;
-}
-.game-screen.fade-in { animation: fadeIn .8s ease forwards; }
+.game-screen { position:fixed; inset:0; display:flex; align-items:flex-end; justify-content:center; overflow:hidden; }
+.game-screen.fade-in { animation:fadeIn .8s ease forwards; }
 @keyframes fadeIn { from{opacity:0}to{opacity:1} }
 
 /* ================================================================
-   FUNDO LOFI NOTURNO ROXO
+   FUNDO — bg-site.gif
    ================================================================ */
 .lofi-bg {
   position: fixed; inset: 0; z-index: 0;
@@ -186,7 +107,7 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .lofi-bg::before {
   content: '';
   position: absolute; inset: 0;
-  background-image: url('../IMG/bg-site.gif');
+  background-image: url('IMG/bg-site.gif');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -194,7 +115,7 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
   filter: brightness(0.75) saturate(1.1);
 }
 
-/* Overlay escuro roxo suave para integrar com a UI */
+/* Overlay escuro roxo suave */
 .lofi-bg::after {
   content: '';
   position: absolute; inset: 0;
@@ -209,231 +130,75 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
   pointer-events: none;
 }
 
-/* Céu */
-.lofi-sky {
-  position: absolute; inset: 0; z-index: 2;
-  background:
-    radial-gradient(ellipse 60% 40% at 70% 30%, rgba(80,0,120,.15) 0%, transparent 70%),
-    radial-gradient(ellipse 40% 30% at 20% 20%, rgba(60,0,100,.10) 0%, transparent 70%);
-}
+/* Elementos decorativos acima do GIF */
+.lofi-sky,
+.lofi-plant,
+.string-lights,
+.shelf { position: absolute; z-index: 2; }
 
-/* Janela, cidade e piso CSS ocultos — o GIF já tem o ambiente */
+/* Esconde os elementos CSS que o GIF já substitui */
 .lofi-window,
+.lofi-city,
+.lofi-moon,
+.building,
+.window-frame,
+.window-glow,
 .lofi-floor,
 .lofi-floor-reflection { display: none; }
-  position: absolute;
-  top: 6%; left: 50%; transform: translateX(-50%);
-  width: 480px; height: 320px;
-  border: 6px solid #2a1840;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow:
-    0 0 40px rgba(80,0,150,.4),
-    inset 0 0 60px rgba(0,0,0,.5);
-}
-
-/* Cityscape noturna dentro da janela */
-.lofi-city {
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, #05000f 0%, #0a0020 40%, #150030 70%, #0d0018 100%);
-  overflow: hidden;
-}
-
-/* Lua */
-.lofi-moon {
-  position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
-  width: 60px; height: 60px; border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%, #efe8ff, #c8a0ff 60%, #9060cc);
-  box-shadow: 0 0 20px rgba(200,160,255,.5), 0 0 60px rgba(150,80,220,.25);
-}
-
-/* Prédios */
-.building {
-  position: absolute; bottom: 0;
-  background: #0a0018;
-  box-shadow: inset 0 0 0 1px rgba(80,0,120,.3);
-}
-.building::before { /* Janelas dos prédios */
-  content:''; position:absolute; inset:8px 4px;
-  background: repeating-linear-gradient(0deg,
-    transparent 0, transparent 6px,
-    rgba(177,0,255,.15) 6px, rgba(177,0,255,.15) 8px
-  ),
-  repeating-linear-gradient(90deg,
-    transparent 0, transparent 6px,
-    rgba(177,0,255,.15) 6px, rgba(177,0,255,.15) 8px
-  );
-}
-.b1 { left:0%;   width:60px;  height:160px; background:#070012; }
-.b2 { left:5%;   width:45px;  height:110px; }
-.b3 { left:12%;  width:70px;  height:200px; background:#060010; }
-.b4 { left:22%;  width:50px;  height:140px; }
-.b5 { left:31%;  width:80px;  height:180px; background:#070012; }
-.b6 { left:43%;  width:55px;  height:120px; }
-.b7 { left:52%;  width:90px;  height:240px; background:#060010; }
-.b8 { right:0%;  width:65px;  height:160px; background:#070012; }
-.b9 { right:8%;  width:50px;  height:110px; }
-.b10{ right:17%; width:75px;  height:190px; background:#060010; }
-
-/* Moldura da janela (cruz) */
-.window-frame {
-  position: absolute; inset: 0; pointer-events: none;
-  border: 6px solid #1e0f30;
-}
-.window-frame::before {
-  content:''; position:absolute; top:0; bottom:0; left:50%; transform:translateX(-50%); width:6px;
-  background: #1e0f30;
-}
-.window-frame::after {
-  content:''; position:absolute; left:0; right:0; top:50%; transform:translateY(-50%); height:6px;
-  background: #1e0f30;
-}
-.window-glow {
-  position:absolute; inset:0; pointer-events:none;
-  background: linear-gradient(135deg, rgba(150,80,255,.06) 0%, transparent 50%);
-}
-
-/* Piso lofi */
-.lofi-floor {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 130px;
-  background: linear-gradient(180deg, #120022 0%, #0a0015 100%);
-  border-top: 2px solid #2a0050;
-}
-.lofi-floor::before {
-  content:''; position:absolute; inset:0;
-  background:
-    repeating-linear-gradient(90deg,
-      transparent 0, transparent 79px,
-      rgba(80,0,150,.12) 79px, rgba(80,0,150,.12) 80px
-    ),
-    repeating-linear-gradient(0deg,
-      transparent 0, transparent 39px,
-      rgba(80,0,150,.08) 39px, rgba(80,0,150,.08) 40px
-    );
-}
-.lofi-floor-reflection {
-  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-  width:600px; height:80px;
-  background: radial-gradient(ellipse 50% 100% at 50% 100%, rgba(100,0,180,.12) 0%, transparent 100%);
-  pointer-events:none;
-}
-
-/* Prateleiras decorativas */
-.shelf {
-  position: absolute; top: 55%;
-  display: flex; gap: 12px; align-items: flex-end;
-  padding: 6px 10px;
-  background: linear-gradient(180deg, #1a0830, #100520);
-  border-top: 2px solid #3a1060;
-  border-radius: 2px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.5), 0 0 8px rgba(80,0,150,.2);
-}
-.shelf-left  { left: 3%; }
-.shelf-right { right: 3%; }
-.shelf-item  { font-size: 1.4rem; }
-.shelf::after {
-  content:''; position:absolute; bottom:-8px; left:0; right:0; height:4px;
-  background: linear-gradient(180deg, #2a1050, #180830);
-  border-radius:0 0 2px 2px;
-}
-
-/* Planta de chão lofi */
-.lofi-plant {
-  position: absolute; bottom: 115px; left: 3%;
-  display: flex; flex-direction: column; align-items: center;
-}
-.lp-leaves { position:relative; width:60px; height:70px; margin-bottom:-4px; }
-.lp-leaf   { position:absolute; border-radius:50% 5px 50% 5px; transform-origin:bottom center; }
-.lp-l1 { width:22px;height:42px;background:linear-gradient(160deg,#3a0060,#1a0030);bottom:0;left:4px;transform:rotate(-30deg); }
-.lp-l2 { width:20px;height:38px;background:linear-gradient(160deg,#4a0080,#280045);bottom:0;left:20px;transform:rotate(5deg); }
-.lp-l3 { width:18px;height:35px;background:linear-gradient(160deg,#3a0060,#1a0030);bottom:0;left:34px;transform:rotate(32deg); }
-.lp-pot { width:40px;height:32px;background:linear-gradient(160deg,#2a0045,#150025);border-radius:3px 3px 8px 8px;border:1px solid #4a0070; }
 
 /* Luzes de fio */
-.string-lights { position:absolute; top:3%; left:0; right:0; height:40px; pointer-events:none; }
+.string-lights { top:3%; left:0; right:0; height:40px; pointer-events:none; }
 .sl-wire { position:absolute; top:8px; left:0; right:0; height:1px; background:rgba(80,0,150,.4); }
-.sl-bulb {
-  position:absolute; top:0; width:10px; height:14px;
-  background: radial-gradient(circle at 50% 40%, #ffe0ff, #cc60ff 60%, #7a00b3);
-  border-radius:50% 50% 40% 40%;
-  box-shadow: 0 0 6px rgba(200,100,255,.6), 0 0 14px rgba(177,0,255,.3);
-  animation: bulbFlicker 4s ease-in-out infinite;
-}
-.sl-bulb:nth-child(odd)  { animation-delay: .5s; }
-.sl-bulb:nth-child(3n)   { animation-delay: 1.2s; background:radial-gradient(circle at 50% 40%,#ffffd0,#ffcc40 60%,#cc8800); box-shadow:0 0 6px rgba(255,200,60,.6),0 0 14px rgba(255,160,0,.3); }
-@keyframes bulbFlicker {
-  0%,90%,100%{opacity:1}
-  92%{opacity:.4}
-  95%{opacity:1}
-  97%{opacity:.6}
-}
+.sl-bulb { position:absolute; top:0; width:10px; height:14px; background:radial-gradient(circle at 50% 40%,#ffe0ff,#cc60ff 60%,#7a00b3); border-radius:50% 50% 40% 40%; box-shadow:0 0 6px rgba(200,100,255,.6),0 0 14px rgba(177,0,255,.3); animation:bulbFlicker 4s ease-in-out infinite; }
+.sl-bulb:nth-child(odd)  { animation-delay:.5s; }
+.sl-bulb:nth-child(3n)   { animation-delay:1.2s; background:radial-gradient(circle at 50% 40%,#ffffd0,#ffcc40 60%,#cc8800); box-shadow:0 0 6px rgba(255,200,60,.6),0 0 14px rgba(255,160,0,.3); }
+@keyframes bulbFlicker { 0%,90%,100%{opacity:1}92%{opacity:.4}95%{opacity:1}97%{opacity:.6} }
+
+/* Planta de chão */
+.lofi-plant { bottom:115px; left:3%; display:flex; flex-direction:column; align-items:center; }
+.lp-leaves { position:relative; width:60px; height:70px; margin-bottom:-4px; }
+.lp-leaf   { position:absolute; border-radius:50% 5px 50% 5px; transform-origin:bottom center; }
+.lp-l1 { width:22px; height:42px; background:linear-gradient(160deg,#3a0060,#1a0030); bottom:0; left:4px; transform:rotate(-30deg); }
+.lp-l2 { width:20px; height:38px; background:linear-gradient(160deg,#4a0080,#280045); bottom:0; left:20px; transform:rotate(5deg); }
+.lp-l3 { width:18px; height:35px; background:linear-gradient(160deg,#3a0060,#1a0030); bottom:0; left:34px; transform:rotate(32deg); }
+.lp-pot { width:40px; height:32px; background:linear-gradient(160deg,#2a0045,#150025); border-radius:3px 3px 8px 8px; border:1px solid #4a0070; }
 
 /* ================================================================
    CENA E CARTEIRA
    ================================================================ */
-.scene {
-  position: relative; z-index: 10;
-  display: flex; align-items: flex-end; gap: 0;
-  filter: drop-shadow(0 8px 40px rgba(0,0,0,.5));
-  margin-bottom: 0;
-}
+.scene { position:relative; z-index:10; display:flex; align-items:flex-end; gap:0; filter:drop-shadow(0 8px 40px rgba(0,0,0,.5)); margin-bottom:0; }
 
-.carteira {
-  position: fixed;
-  left: 16px; top: 50%;
-  transform: translateY(-50%);
-  background: #1a0030;
-  border: 1px solid #4a0070;
-  padding: 12px 10px;
-  border-radius: 15px;
-  z-index: 15;
-  display: flex; flex-direction: column;
-  align-items: center; gap: 6px;
-  box-shadow: 0 4px 20px rgba(0,0,0,.6), 0 0 15px rgba(80,0,150,.2);
-  max-height: 70vh; overflow-y: auto; scrollbar-width: none;
-}
+.carteira { position:fixed; left:16px; top:50%; transform:translateY(-50%); background:#1a0030; border:1px solid #4a0070; padding:12px 10px; border-radius:15px; z-index:15; display:flex; flex-direction:column; align-items:center; gap:6px; box-shadow:0 4px 20px rgba(0,0,0,.6),0 0 15px rgba(80,0,150,.2); max-height:70vh; overflow-y:auto; scrollbar-width:none; }
 .carteira::-webkit-scrollbar { display:none; }
-
 .moeda { width:52px; height:52px; cursor:grab; }
 .moeda:active { cursor:grabbing; }
 .moeda-img { width:100%; height:100%; object-fit:contain; }
 .moeda.arrastando { opacity:.5; }
 
 /* ================================================================
-   MÁQUINA (corpo roxo)
+   MÁQUINA
    ================================================================ */
 .machine { position:relative; width:340px; height:620px; flex-shrink:0; }
-
-.machine-shell {
-  position:absolute; inset:0;
-  background:linear-gradient(to right, #2a003d 0px, #4a0070 6px, #5a0080 12px, #3d0055 100px, #300048 240px, #280040 310px, #1a0028 328px, #0d0016 334px, #08000e 340px);
-  border-radius:5px 5px 3px 3px;
-  border:1.5px solid var(--purple);
-  overflow:hidden;
-  box-shadow:0 0 30px rgba(177,0,255,.35), 0 20px 60px rgba(0,0,0,.8);
-}
+.machine-shell { position:absolute; inset:0; background:linear-gradient(to right,#2a003d 0px,#4a0070 6px,#5a0080 12px,#3d0055 100px,#300048 240px,#280040 310px,#1a0028 328px,#0d0016 334px,#08000e 340px); border-radius:5px 5px 3px 3px; border:1.5px solid var(--purple); overflow:hidden; box-shadow:0 0 30px rgba(177,0,255,.35),0 20px 60px rgba(0,0,0,.8); }
 .machine-shell::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(180deg,transparent 0,transparent 2px,rgba(177,0,255,.03) 2px,rgba(177,0,255,.03) 3px); pointer-events:none; z-index:60; }
 
-/* Letreiro */
 .machine-header { position:absolute; top:0; left:0; right:0; height:52px; padding:0 14px; z-index:5; overflow:hidden; display:flex; align-items:center; justify-content:space-between; background:linear-gradient(180deg,#7a00b3,#4a0070 60%,#2a003d); border-bottom:3px solid #1a0026; }
 .machine-header::after { content:''; position:absolute; bottom:-5px; left:0; right:0; height:5px; background:rgba(0,0,0,.4); }
 .brand-neon { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:1.6rem; letter-spacing:6px; color:#fff; text-shadow:0 0 6px #fff,0 0 12px rgba(220,150,255,.9),0 0 24px rgba(177,0,255,.8),0 0 40px rgba(130,0,200,.6); animation:neonFlicker 4s infinite; }
 @keyframes neonFlicker { 0%,18%,20%,50%,52%,64%,66%,80%,90%,92%,100%{text-shadow:0 0 6px #fff,0 0 12px rgba(220,150,255,.9),0 0 24px rgba(177,0,255,.8),0 0 40px rgba(130,0,200,.6);opacity:1}19%,51%,65%,81%,91%{text-shadow:none;opacity:.85} }
 .brand-cat-led { display:flex; gap:4px; align-items:center; }
 .led-dot { width:7px; height:7px; border-radius:50%; background:#ff00ff; box-shadow:0 0 6px #ff00ff,0 0 12px rgba(255,0,255,.5); animation:ledPulse 1.2s ease-in-out infinite; }
-.led-dot:nth-child(2){animation-delay:.4s;}.led-dot:nth-child(3){animation-delay:.8s;}
-@keyframes ledPulse{0%,100%{opacity:1}50%{opacity:.2;box-shadow:none}}
+.led-dot:nth-child(2){animation-delay:.4s;} .led-dot:nth-child(3){animation-delay:.8s;}
+@keyframes ledPulse { 0%,100%{opacity:1}50%{opacity:.2;box-shadow:none} }
 
-/* Vitrine */
 .glass-frame { position:absolute; top:56px; left:14px; right:14px; height:376px; background:linear-gradient(160deg,rgba(122,0,179,.25),rgba(42,0,61,.9)); border:2px solid rgba(177,0,255,.4); border-radius:3px; overflow:hidden; box-shadow:inset 0 0 40px rgba(0,0,0,.9),inset 0 0 15px rgba(177,0,255,.15),0 0 20px rgba(177,0,255,.2); }
 .shelf-light { position:absolute; top:0; left:0; right:0; height:3px; z-index:30; pointer-events:none; background:linear-gradient(90deg,transparent,rgba(177,0,255,.7) 20%,rgba(220,100,255,.9) 50%,rgba(177,0,255,.7) 80%,transparent); box-shadow:0 2px 18px rgba(177,0,255,.5); }
 .glass-reflection { position:absolute; inset:0; z-index:50; pointer-events:none; background:linear-gradient(125deg,rgba(255,255,255,.08) 0%,rgba(255,255,255,.03) 30%,transparent 55%),linear-gradient(to bottom,transparent 60%,rgba(177,0,255,.06)); }
 .glass-reflection::before { content:''; position:absolute; top:0; left:0; width:6px; height:100%; background:linear-gradient(180deg,rgba(177,0,255,.4),rgba(177,0,255,.1) 50%,transparent); }
 .glass-reflection::after { content:''; position:absolute; top:0; left:0; right:0; height:5px; background:linear-gradient(90deg,transparent,rgba(177,0,255,.3) 30%,rgba(220,100,255,.4) 50%,rgba(177,0,255,.3) 70%,transparent); }
 .glass-frame::before { content:''; position:absolute; top:0; left:-40%; width:40%; height:100%; background:linear-gradient(120deg,transparent,rgba(177,0,255,.2),transparent); transform:skewX(-20deg); animation:reflexoVidro 8s infinite; pointer-events:none; z-index:51; }
-@keyframes reflexoVidro{from{left:-40%}to{left:140%}}
+@keyframes reflexoVidro { from{left:-40%}to{left:140%} }
 
-/* Prateleiras 3x3 */
 .shelves { position:absolute; inset:3px 0 0 0; display:flex; flex-direction:column; padding:6px 6px 4px; }
 .shelf-row { flex:1; position:relative; display:flex; align-items:flex-end; justify-content:center; padding:4px 4px 6px; gap:4px; }
 .shelf-row::after { content:''; position:absolute; bottom:0; left:4px; right:4px; height:4px; background:linear-gradient(180deg,rgba(177,0,255,.35),rgba(177,0,255,.12)); border-radius:1px; box-shadow:0 0 8px rgba(177,0,255,.4),0 2px 4px rgba(0,0,0,.6); }
@@ -471,12 +236,10 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 @keyframes catIdle{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 .cat-actor.idle{animation:catIdle 1s ease-in-out infinite;}
 
-/* Faixa preços */
 .price-strip{position:absolute;bottom:74px;left:14px;right:14px;height:24px;display:flex;align-items:center;padding:0 3px;gap:2px;background:#050008;border:1px solid #2a003d;}
 .price-tag{flex:1;text-align:center;font-size:.4rem;color:rgba(177,0,255,.6);letter-spacing:.3px;padding:1px 0;border-right:1px solid #1a0026;}
 .price-tag:last-child{border-right:none;}
 
-/* Bandeja */
 .delivery-section{position:absolute;bottom:76px;left:14px;right:14px;height:54px;}
 .delivery-bin{position:absolute;inset:0;border-radius:4px 4px 2px 2px;border:2px solid var(--steel-darker);overflow:hidden;background:linear-gradient(180deg,#0a0010,#060008);box-shadow:inset 0 4px 14px rgba(0,0,0,.9),0 0 10px rgba(177,0,255,.2);}
 .delivery-flap{position:absolute;top:0;left:0;right:0;height:14px;z-index:10;background:linear-gradient(180deg,#4a0070,#2a003d);border-bottom:1px solid var(--purple);transform-origin:top center;transform:rotateX(0deg);transition:transform .5s ease;}
@@ -485,7 +248,6 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .delivery-inner{position:absolute;top:14px;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;cursor:pointer;}
 .delivery-inner .produto-img{max-height:32px;}
 
-/* Base */
 .machine-base{position:absolute;bottom:0;left:0;right:0;height:74px;background:linear-gradient(180deg,#2a003d,#1a0026);border-top:2px solid var(--purple);border-radius:0 0 3px 3px;box-shadow:0 0 15px rgba(177,0,255,.3);}
 .machine-feet{position:absolute;bottom:0;left:0;right:0;display:flex;justify-content:space-between;padding:0 28px;}
 .foot{width:40px;height:14px;background:linear-gradient(180deg,#1a0026,#0d0016);border-radius:0 0 4px 4px;border:1px solid #4a0070;border-top:none;}
@@ -552,11 +314,9 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .popup-btn.close-btn{background:#1E2430;color:rgba(255,255,255,.55);border:1px solid #2A3040;}
 .popup-btn.close-btn:hover{background:#252C3A;}
 
-/* Overlay miau */
 .sobreposicao{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;visibility:hidden;opacity:0;transition:.3s;z-index:9999;}
 .sobreposicao.ativa{visibility:visible;opacity:1;}
 .popup-miau{background:black;color:white;padding:40px 60px;border-radius:20px;font-size:22px;font-weight:bold;border:2px solid var(--purple);box-shadow:0 0 30px rgba(177,0,255,.5);}
 
-/* Animações */
 @keyframes machineVib{0%,100%{transform:translateX(0)}25%{transform:translateX(-1px)}75%{transform:translateX(1px)}}
 .machine.vibrate{animation:machineVib .14s ease 3;}
