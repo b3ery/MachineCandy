@@ -6,6 +6,7 @@
 const Game = {
   saldo: 0,
   codigoSelecionado: "",
+  jogadas: 10,
   animando: false
 };
 
@@ -13,15 +14,15 @@ const Game = {
    PRODUTOS
    ================================================================ */
 const produtos = {
-  1: { img: "IMG/doce1.png", preco: 5,  nome: "Doce 1" },
-  2: { img: "IMG/doce2.png", preco: 7,  nome: "Doce 2" },
-  3: { img: "IMG/doce3.png", preco: 6,  nome: "Doce 3" },
-  4: { img: "IMG/doce4.png", preco: 4,  nome: "Doce 4" },
-  5: { img: "IMG/doce5.png", preco: 8,  nome: "Doce 5" },
-  6: { img: "IMG/doce6.png", preco: 9,  nome: "Doce 6" },
-  7: { img: "IMG/doce7.png", preco: 3,  nome: "Doce 7" },
-  8: { img: "IMG/doce8.png", preco: 6,  nome: "Doce 8" },
-  9: { img: "IMG/doce9.png", preco: 4,  nome: "Doce 9" }
+  1: { img: "IMG/doce1.png", preco: 5,  nome: "Doce 1", estoque: 3 },
+  2: { img: "IMG/doce2.png", preco: 7,  nome: "Doce 2", estoque: 3 },
+  3: { img: "IMG/doce3.png", preco: 6,  nome: "Doce 3", estoque: 3 },
+  4: { img: "IMG/doce4.png", preco: 4,  nome: "Doce 4", estoque: 3 },
+  5: { img: "IMG/doce5.png", preco: 8,  nome: "Doce 5", estoque: 3 },
+  6: { img: "IMG/doce6.png", preco: 9,  nome: "Doce 6", estoque: 3 },
+  7: { img: "IMG/doce7.png", preco: 3,  nome: "Doce 7", estoque: 3 },
+  8: { img: "IMG/doce8.png", preco: 6,  nome: "Doce 8", estoque: 3 },
+  9: { img: "IMG/doce9.png", preco: 4,  nome: "Doce 9", estoque: 3 }
 };
 
 const valoresMoeda = [1, 2, 10, 20, 50];
@@ -89,6 +90,7 @@ function criarSlots() {
         <div class="slot-num">${i}</div>
         <img src="${produtos[i].img}" class="produto-img" id="produto-img-${i}" onerror="this.style.opacity='0.3'">
         <div class="slot-preco">R$${produtos[i].preco}</div>
+        <div class="slot-estoque" id="estoque-${i}">x${produtos[i].estoque}</div>
         <div class="slot-label">${i}</div>
       `;
       row.appendChild(slot);
@@ -104,6 +106,25 @@ function criarSlots() {
     tag.className = "price-tag";
     tag.textContent = `${i}·R$${produtos[i].preco}`;
     strip.appendChild(tag);
+  }
+}
+
+
+/* ================================================================
+   ATUALIZAR ESTOQUE VISUAL
+   ================================================================ */
+function atualizarEstoque(codigo) {
+  const el   = document.getElementById(`estoque-${codigo}`);
+  const slot = document.getElementById(`slot-${codigo}`);
+  const img  = document.getElementById(`produto-img-${codigo}`);
+  const est  = produtos[codigo].estoque;
+
+  if (el) el.textContent = `x${est}`;
+
+  if (est <= 0) {
+    if (el)   { el.textContent = 'ESGOTADO'; el.style.color = '#ff4444'; }
+    if (img)  { img.style.opacity = '0.2'; img.style.filter = 'grayscale(1)'; }
+    if (slot) slot.classList.add('esgotado');
   }
 }
 
@@ -147,7 +168,7 @@ function gerarMoedasIniciais() {
 function atualizarVisor(mensagem = null) {
   const v = getVisor();
   if (!v) return;
-  v.innerText = (mensagem ? mensagem + "\n" : "") + `SALDO: R$${Game.saldo}`;
+  v.innerText = (mensagem ? mensagem + "\n" : "") + `SALDO: R$${Game.saldo} | JOGADAS: ${Game.jogadas}`;
 }
 
 /* ================================================================
@@ -355,18 +376,19 @@ function animarQuedaProduto(imgSrc, callback) {
    ================================================================ */
 function comprar() {
   if (Game.animando) return;
+  if (Game.jogadas <= 0)               { atualizarVisor("SEM JOGADAS");   return; }
   const produto = produtos[Game.codigoSelecionado];
   if (!produto)                        { atualizarVisor("CÓDIGO INVÁLIDO"); Game.codigoSelecionado = ""; return; }
   if (Game.saldo < produto.preco)      { atualizarVisor("SEM SALDO");      Game.codigoSelecionado = ""; return; }
+  if (produto.estoque <= 0)             { atualizarVisor("ESGOTADO!");        Game.codigoSelecionado = ""; return; }
 
   const codigo = parseInt(Game.codigoSelecionado);
   Game.saldo   -= produto.preco;
+  Game.jogadas--;
   adicionarLog(`Comprou ${produto.nome} por R$${produto.preco}`, 'buy');
 
   gatoDispensa(codigo, () => {
-    const bandeja = getBandeja();
-    bandeja.innerHTML = `<img src="${produto.img}" class="produto-img" style="max-height:32px" onerror="this.style.opacity='.5'">`;
-    devolverTroco(bandeja);
+    getBandeja().innerHTML = `<img src="${produto.img}" class="produto-img" style="max-height:38px" onerror="this.style.opacity='.5'">`;
     mostrarPopupMiau();
   });
 
@@ -374,6 +396,24 @@ function comprar() {
   atualizarVisor();
 }
 
+/* ================================================================
+   TROCO
+   ================================================================ */
+function devolverTroco() {
+  if (Game.saldo <= 0) { atualizarVisor("SEM SALDO"); return; }
+  let restante = Game.saldo;
+  Game.saldo   = 0;
+  adicionarLog(`Troco devolvido: R$${restante}`, 'troco');
+
+  const ordenado = [...valoresMoeda].sort((a, b) => b - a);
+  while (restante > 0) {
+    const moeda = ordenado.find(v => v <= restante);
+    if (!moeda) break;
+    restante -= moeda;
+    adicionarMoeda(moeda);
+  }
+  atualizarVisor("TROCO DEVOLVIDO");
+}
 
 /* ================================================================
    BANDEJA
@@ -387,62 +427,20 @@ function removerDoce() {
 }
 
 /* ================================================================
-   TROCO — chamado automaticamente após cada compra
-   ================================================================ */
-function devolverTroco(bandeja) {
-  if (Game.saldo <= 0) return;
-  let restante = Game.saldo;
-  Game.saldo = 0;
-  adicionarLog(`Troco automático: R$${restante}`, 'troco');
-
-  const ordenado = [...valoresMoeda].sort((a, b) => b - a);
-  const moedasTroco = [];
-  while (restante > 0) {
-    const moeda = ordenado.find(v => v <= restante);
-    if (!moeda) break;
-    restante -= moeda;
-    moedasTroco.push(moeda);
-  }
-
-  moedasTroco.forEach((v, idx) => {
-    setTimeout(() => {
-      if (bandeja) {
-        const mc = document.createElement('img');
-        mc.src = `IMG/moeda${v}.png`;
-        mc.style.cssText = 'max-height:26px;margin:0 2px;vertical-align:middle;';
-        mc.onerror = () => {
-          const sp = document.createElement('span');
-          sp.textContent = `R$${v}`;
-          sp.style.cssText = 'font-size:.55rem;color:#e0b0ff;padding:2px 4px;background:#2a0040;border-radius:3px;margin:1px;display:inline-block;';
-          mc.replaceWith(sp);
-        };
-        bandeja.appendChild(mc);
-      }
-      adicionarMoeda(v);
-    }, idx * 130);
-  });
-  atualizarVisor();
-}
-
-
-/* ================================================================
    FINALIZAR COMPRA
    ================================================================ */
 function finalizarCompra() {
   if (Game.animando) return;
 
-  // Devolve troco se ainda houver saldo
   if (Game.saldo > 0) {
+    adicionarLog(`Troco devolvido: R$${Game.saldo}`, 'troco');
     const bandeja = getBandeja();
     devolverTroco(bandeja);
   }
 
-  adicionarLog('Compra finalizada pelo usuário', 'system');
-  atualizarVisor('ATÉ LOGO!');
-
-  setTimeout(() => {
-    mostrarRelatorio();
-  }, 800);
+  adicionarLog('Sessão finalizada pelo usuário', 'system');
+  atualizarVisor('ATÉ LOGO! 💜');
+  setTimeout(() => mostrarRelatorio(), 900);
 }
 
 /* ================================================================
@@ -472,7 +470,7 @@ function mostrarRelatorio() {
     <div class="icon">🍬</div>
     <div class="info">
       <div class="title">COMPRA REALIZADA!</div>
-      <div class="detail">Saldo restante: <strong>R$${Game.saldo},00</strong></div>
+      <div class="detail">Saldo restante: <strong>R$${Game.saldo},00</strong> &nbsp;|&nbsp; Jogadas: <strong>${Game.jogadas}</strong></div>
     </div>
     <div style="font-size:1.5rem">✅</div>
   `;
@@ -506,7 +504,7 @@ function closePopup() {
 
 function restartMachine() {
   closePopup();
-  Game.saldo = 0; Game.codigoSelecionado = ""; Game.animando = false;
+  Game.saldo = 0; Game.codigoSelecionado = ""; Game.jogadas = 10; Game.animando = false;
   logEventos = [];
 
   getBandeja().innerHTML = '';
@@ -515,8 +513,14 @@ function restartMachine() {
   const cat = document.getElementById('catActor');
   if (cat) { cat.style.opacity = '0'; cat.style.left = '-60px'; cat.classList.remove('idle'); }
 
-  document.querySelectorAll('.produto-img').forEach(img => {
-    img.style.opacity = '1'; img.style.transform = 'none';
+  Object.keys(produtos).forEach(k => {
+    produtos[k].estoque = 3;
+    const img  = document.getElementById(`produto-img-${k}`);
+    const est  = document.getElementById(`estoque-${k}`);
+    const slot = document.getElementById(`slot-${k}`);
+    if (img)  { img.style.opacity = '1'; img.style.transform = 'none'; img.style.filter = ''; }
+    if (est)  { est.textContent = 'x3'; est.style.color = ''; }
+    if (slot) slot.classList.remove('esgotado');
   });
 
   gerarMoedasIniciais();
