@@ -1,18 +1,11 @@
 'use strict';
 
-/* ================================================================
-   ESTADO DO JOGO
-   ================================================================ */
 const Game = {
   saldo: 0,
   codigoSelecionado: "",
-  jogadas: 10,
   animando: false
 };
 
-/* ================================================================
-   PRODUTOS
-   ================================================================ */
 const produtos = {
   1: { img: "IMG/doce1.png", preco: 5,  nome: "Doce 1", estoque: 3 },
   2: { img: "IMG/doce2.png", preco: 7,  nome: "Doce 2", estoque: 3 },
@@ -25,24 +18,18 @@ const produtos = {
   9: { img: "IMG/doce9.png", preco: 4,  nome: "Doce 9", estoque: 3 }
 };
 
-const valoresMoeda = [1, 2, 10, 20, 50];
+const valoresMoeda = [1, 2, 5, 10, 20, 50];
 let logEventos = [];
 
-/* ================================================================
-   TELA DE ENTRADA
-   ================================================================ */
+/* ---- TELA DE ENTRADA ---- */
 function iniciarJogo() {
   const intro = document.getElementById('introScreen');
   const game  = document.getElementById('gameScreen');
-
   intro.classList.add('fade-out');
-
   setTimeout(() => {
     intro.style.display = 'none';
     game.style.display  = 'flex';
     game.classList.add('fade-in');
-
-    // Inicializa a máquina após mostrar
     criarSlots();
     gerarMoedasIniciais();
     atualizarVisor();
@@ -51,26 +38,20 @@ function iniciarJogo() {
   }, 800);
 }
 
-/* ================================================================
-   ELEMENTOS DOM (obtidos depois que o jogo inicia)
-   ================================================================ */
+/* ---- DOM ---- */
 function getVisor()    { return document.getElementById("visor"); }
 function getBandeja()  { return document.getElementById("deliveryInner"); }
 function getFlap()     { return document.getElementById("deliveryFlap"); }
 function getSlot()     { return document.getElementById("slotMoeda"); }
 function getCarteira() { return document.getElementById("carteira"); }
 
-/* ================================================================
-   LOG
-   ================================================================ */
+/* ---- LOG ---- */
 function adicionarLog(mensagem, categoria = 'system') {
   const horario = new Date().toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
   logEventos.push({ mensagem, categoria, horario });
 }
 
-/* ================================================================
-   CRIAR SLOTS 3x3
-   ================================================================ */
+/* ---- CRIAR SLOTS 3x3 ---- */
 function criarSlots() {
   const container = document.getElementById("shelves");
   if (!container) return;
@@ -79,7 +60,6 @@ function criarSlots() {
   for (let linha = 0; linha < 3; linha++) {
     const row = document.createElement("div");
     row.className = "shelf-row";
-
     for (let col = 0; col < 3; col++) {
       const i = linha * 3 + col + 1;
       const slot = document.createElement("div");
@@ -109,10 +89,7 @@ function criarSlots() {
   }
 }
 
-
-/* ================================================================
-   ATUALIZAR ESTOQUE VISUAL
-   ================================================================ */
+/* ---- ATUALIZAR ESTOQUE VISUAL ---- */
 function atualizarEstoque(codigo) {
   const el   = document.getElementById(`estoque-${codigo}`);
   const slot = document.getElementById(`slot-${codigo}`);
@@ -122,24 +99,21 @@ function atualizarEstoque(codigo) {
   if (el) el.textContent = `x${est}`;
 
   if (est <= 0) {
-    if (el)   { el.textContent = 'ESGOTADO'; el.style.color = '#ff4444'; }
-    if (img)  { img.style.opacity = '0.2'; img.style.filter = 'grayscale(1)'; }
+    if (el)   { el.textContent = 'ESGOTADO'; el.style.color = '#ff4444'; el.style.fontSize = '6px'; }
+    if (img)  { img.style.opacity = '0.15'; img.style.filter = 'grayscale(1)'; }
     if (slot) slot.classList.add('esgotado');
   }
 }
 
-/* ================================================================
-   MOEDAS ARRASTÁVEIS
-   ================================================================ */
+/* ---- MOEDAS ---- */
 function adicionarMoeda(valor) {
   const carteira = getCarteira();
   if (!carteira) return;
-
   const moeda = document.createElement("div");
   moeda.className = "moeda";
   moeda.draggable = true;
   moeda.dataset.valor = valor;
-  moeda.innerHTML = `<img src="IMG/moeda${valor}.png" class="moeda-img" 
+  moeda.innerHTML = `<img src="IMG/moeda${valor}.png" class="moeda-img"
     onerror="this.parentElement.innerHTML='<div style=\\'width:52px;height:52px;border-radius:50%;background:radial-gradient(circle,#e080ff,#7a00b3);border:2px solid #b100ff;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:bold;\\'>R$${valor}</div>'">`;
   moeda.addEventListener("dragstart", arrastar);
   moeda.addEventListener("dragend",   () => moeda.classList.remove("arrastando"));
@@ -150,30 +124,24 @@ function gerarMoedasIniciais() {
   const carteira = getCarteira();
   if (!carteira) return;
   carteira.innerHTML = '';
-  // Label da carteira
   const label = document.createElement('div');
   label.style.cssText = 'font-size:.4rem;color:rgba(177,0,255,.6);letter-spacing:1px;margin-bottom:4px;text-align:center;';
   label.textContent = '💰 MOEDAS';
   carteira.appendChild(label);
-
   for (let i = 0; i < 6; i++) {
     const v = valoresMoeda[Math.floor(Math.random() * valoresMoeda.length)];
     adicionarMoeda(v);
   }
 }
 
-/* ================================================================
-   VISOR
-   ================================================================ */
+/* ---- VISOR ---- */
 function atualizarVisor(mensagem = null) {
   const v = getVisor();
   if (!v) return;
-  v.innerText = (mensagem ? mensagem + "\n" : "") + `SALDO: R$${Game.saldo} | JOGADAS: ${Game.jogadas}`;
+  v.innerText = (mensagem ? mensagem + "\n" : "") + `SALDO: R$${Game.saldo}`;
 }
 
-/* ================================================================
-   TECLADO
-   ================================================================ */
+/* ---- TECLADO ---- */
 function pressionar(numero) {
   if (Game.animando) return;
   Game.codigoSelecionado += numero;
@@ -190,9 +158,7 @@ function apagarNumero() {
   atualizarVisor(Game.codigoSelecionado ? `CÓDIGO: ${Game.codigoSelecionado}` : null);
 }
 
-/* ================================================================
-   DRAG & DROP
-   ================================================================ */
+/* ---- DRAG & DROP ---- */
 function arrastar(evento) {
   evento.dataTransfer.setData("valor", evento.target.closest('.moeda').dataset.valor);
   evento.target.closest('.moeda').classList.add("arrastando");
@@ -203,9 +169,7 @@ function inserirMoeda(evento) {
   const valor   = parseInt(evento.dataTransfer.getData("valor"));
   const moedaEl = document.querySelector(".moeda.arrastando");
   if (!moedaEl || isNaN(valor)) return;
-
   const imgSrc = moedaEl.querySelector("img")?.src || "";
-
   animarMoedaCaindo(imgSrc, valor, () => {
     Game.saldo += valor;
     moedaEl.remove();
@@ -218,16 +182,13 @@ function inserirMoeda(evento) {
 function animarMoedaCaindo(imgSrc, valor, callback) {
   const slot = getSlot();
   if (!slot) { callback(); return; }
-
   const moedaAnim = document.createElement("img");
   moedaAnim.src = imgSrc;
   moedaAnim.style.cssText = "position:absolute;top:0;left:50%;transform:translateX(-50%);width:36px;pointer-events:none;z-index:200;";
   moedaAnim.onerror = () => { moedaAnim.style.display = 'none'; };
   slot.appendChild(moedaAnim);
-
   let posY = 0, vel = 0, quicadas = 0;
   const maxY = 30;
-
   function cair() {
     vel += 0.6; posY += vel;
     moedaAnim.style.top = posY + "px";
@@ -241,9 +202,7 @@ function animarMoedaCaindo(imgSrc, valor, callback) {
   setTimeout(cair, 80);
 }
 
-/* ================================================================
-   GATO — ESPIADA
-   ================================================================ */
+/* ---- GATO — ESPIADA ---- */
 function gatoEspia() {
   const cat    = document.getElementById('catActor');
   const glassH = document.getElementById('glassFrame')?.offsetHeight || 376;
@@ -263,9 +222,7 @@ function gatoEspia() {
   }, 50);
 }
 
-/* ================================================================
-   GATO — DISPENSA
-   ================================================================ */
+/* ---- GATO — DISPENSA ---- */
 function gatoDispensa(codigo, callback) {
   const cat       = document.getElementById('catActor');
   const catItem   = document.getElementById('catItem');
@@ -282,12 +239,10 @@ function gatoDispensa(codigo, callback) {
   cat.classList.remove('idle');
 
   setTimeout(() => getFlap()?.classList.add('open'), 100);
-
   setTimeout(() => {
     cat.style.opacity    = '1';
     cat.style.transition = 'left .55s linear';
     cat.style.left       = '48px';
-
     setTimeout(() => {
       cat.style.transition = 'none';
       if (prodImgEl) {
@@ -297,19 +252,16 @@ function gatoDispensa(codigo, callback) {
       }
       catItem.className = 'ca-item has-item';
       catItem.innerHTML = `<img src="${produtos[codigo].img}" style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">`;
-
       setTimeout(() => {
         cat.style.transition = 'left .5s linear, bottom .5s ease-in';
         cat.style.left       = '290px';
         cat.style.bottom     = '8px';
-
         setTimeout(() => {
           cat.style.transition = 'none';
           catItem.className    = 'ca-item';
           catItem.innerHTML    = '';
           cat.classList.add('idle');
           confetti();
-
           setTimeout(() => {
             cat.classList.remove('idle');
             cat.style.transition = 'left .4s linear, opacity .3s .25s';
@@ -323,7 +275,6 @@ function gatoDispensa(codigo, callback) {
   }, 200);
 }
 
-/* Confetti roxo */
 function confetti() {
   const bin   = document.querySelector('.delivery-bin');
   const cores = ['#b100ff','#ff00ff','#ff60ff','#d400ff','#9000cc'];
@@ -341,54 +292,25 @@ const _s = document.createElement('style');
 _s.textContent = `@keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(90px) rotate(720deg);opacity:0}}`;
 document.head.appendChild(_s);
 
-/* ================================================================
-   ANIMAÇÃO QUEDA DE PRODUTO
-   ================================================================ */
-function animarQuedaProduto(imgSrc, callback) {
-  Game.animando = true;
-  const glassFrame = document.getElementById("glassFrame");
-  const item = document.createElement("img");
-  item.src   = imgSrc;
-  item.style.cssText = "position:absolute;top:0;left:50%;transform:translateX(-50%);width:50px;pointer-events:none;z-index:100;";
-  glassFrame?.appendChild(item);
-
-  let posY = 0, velocidade = 0, rotacao = 0, quicadas = 0;
-
-  setTimeout(() => {
-    function cair() {
-      velocidade += 0.85; posY += velocidade; rotacao += velocidade * 0.5;
-      item.style.top       = posY + "px";
-      item.style.transform = `translateX(-50%) rotate(${rotacao}deg)`;
-      if (posY >= 260) { posY = 260; velocidade *= -0.45; quicadas++; }
-      if (quicadas >= 2 && Math.abs(velocidade) < 1.2) {
-        item.style.top = "260px";
-        setTimeout(() => { item.remove(); Game.animando = false; callback(); }, 300);
-        return;
-      }
-      requestAnimationFrame(cair);
-    }
-    cair();
-  }, 350);
-}
-
-/* ================================================================
-   COMPRA
-   ================================================================ */
+/* ---- COMPRA ---- */
 function comprar() {
   if (Game.animando) return;
-  if (Game.jogadas <= 0)               { atualizarVisor("SEM JOGADAS");   return; }
+
   const produto = produtos[Game.codigoSelecionado];
-  if (!produto)                        { atualizarVisor("CÓDIGO INVÁLIDO"); Game.codigoSelecionado = ""; return; }
-  if (Game.saldo < produto.preco)      { atualizarVisor("SEM SALDO");      Game.codigoSelecionado = ""; return; }
-  if (produto.estoque <= 0)             { atualizarVisor("ESGOTADO!");        Game.codigoSelecionado = ""; return; }
+  if (!produto)               { atualizarVisor("CÓDIGO INVÁLIDO"); Game.codigoSelecionado = ""; return; }
+  if (Game.saldo < produto.preco) { atualizarVisor("SEM SALDO");   Game.codigoSelecionado = ""; return; }
+  if (produto.estoque <= 0)   { atualizarVisor("ESGOTADO!");       Game.codigoSelecionado = ""; return; }
 
   const codigo = parseInt(Game.codigoSelecionado);
-  Game.saldo   -= produto.preco;
-  Game.jogadas--;
+  Game.saldo      -= produto.preco;
+  produto.estoque -= 1;
   adicionarLog(`Comprou ${produto.nome} por R$${produto.preco}`, 'buy');
+  atualizarEstoque(codigo);
 
   gatoDispensa(codigo, () => {
-    getBandeja().innerHTML = `<img src="${produto.img}" class="produto-img" style="max-height:38px" onerror="this.style.opacity='.5'">`;
+    const bandeja = getBandeja();
+    bandeja.innerHTML = `<img src="${produto.img}" class="produto-img" style="max-height:32px" onerror="this.style.opacity='.5'">`;
+    devolverTroco(bandeja);
     mostrarPopupMiau();
   });
 
@@ -396,28 +318,55 @@ function comprar() {
   atualizarVisor();
 }
 
-/* ================================================================
-   TROCO
-   ================================================================ */
-function devolverTroco() {
-  if (Game.saldo <= 0) { atualizarVisor("SEM SALDO"); return; }
+/* ---- TROCO AUTOMÁTICO ---- */
+function devolverTroco(bandeja) {
+  if (Game.saldo <= 0) return;
   let restante = Game.saldo;
-  Game.saldo   = 0;
-  adicionarLog(`Troco devolvido: R$${restante}`, 'troco');
+  Game.saldo = 0;
+  adicionarLog(`Troco automático: R$${restante}`, 'troco');
 
   const ordenado = [...valoresMoeda].sort((a, b) => b - a);
+  const moedasTroco = [];
   while (restante > 0) {
     const moeda = ordenado.find(v => v <= restante);
     if (!moeda) break;
     restante -= moeda;
-    adicionarMoeda(moeda);
+    moedasTroco.push(moeda);
   }
-  atualizarVisor("TROCO DEVOLVIDO");
+
+  moedasTroco.forEach((v, idx) => {
+    setTimeout(() => {
+      if (bandeja) {
+        const mc = document.createElement('img');
+        mc.src = `IMG/moeda${v}.png`;
+        mc.style.cssText = 'max-height:26px;margin:0 2px;vertical-align:middle;';
+        mc.onerror = () => {
+          const sp = document.createElement('span');
+          sp.textContent = `R$${v}`;
+          sp.style.cssText = 'font-size:.55rem;color:#e0b0ff;padding:2px 4px;background:#2a0040;border-radius:3px;margin:1px;display:inline-block;';
+          mc.replaceWith(sp);
+        };
+        bandeja.appendChild(mc);
+      }
+      adicionarMoeda(v);
+    }, idx * 130);
+  });
+  atualizarVisor();
 }
 
-/* ================================================================
-   BANDEJA
-   ================================================================ */
+/* ---- FINALIZAR ---- */
+function finalizarCompra() {
+  if (Game.animando) return;
+  if (Game.saldo > 0) {
+    adicionarLog(`Troco devolvido: R$${Game.saldo}`, 'troco');
+    devolverTroco(getBandeja());
+  }
+  adicionarLog('Sessão finalizada pelo usuário', 'system');
+  atualizarVisor('ATÉ LOGO! 💜');
+  setTimeout(() => mostrarRelatorio(), 900);
+}
+
+/* ---- BANDEJA ---- */
 function removerDoce() {
   const bandeja = getBandeja();
   if (bandeja?.innerHTML.trim() !== "") {
@@ -426,26 +375,7 @@ function removerDoce() {
   }
 }
 
-/* ================================================================
-   FINALIZAR COMPRA
-   ================================================================ */
-function finalizarCompra() {
-  if (Game.animando) return;
-
-  if (Game.saldo > 0) {
-    adicionarLog(`Troco devolvido: R$${Game.saldo}`, 'troco');
-    const bandeja = getBandeja();
-    devolverTroco(bandeja);
-  }
-
-  adicionarLog('Sessão finalizada pelo usuário', 'system');
-  atualizarVisor('ATÉ LOGO! 💜');
-  setTimeout(() => mostrarRelatorio(), 900);
-}
-
-/* ================================================================
-   POPUP MIAU
-   ================================================================ */
+/* ---- POPUP MIAU ---- */
 function mostrarPopupMiau() {
   const overlay = document.createElement('div');
   overlay.className = 'sobreposicao ativa';
@@ -456,9 +386,7 @@ function mostrarPopupMiau() {
   setTimeout(() => { overlay.remove(); mostrarRelatorio(); }, 2000);
 }
 
-/* ================================================================
-   RELATÓRIO
-   ================================================================ */
+/* ---- RELATÓRIO ---- */
 function mostrarRelatorio() {
   const body = document.getElementById('popupBody');
   if (!body) return;
@@ -469,8 +397,8 @@ function mostrarRelatorio() {
   resumo.innerHTML = `
     <div class="icon">🍬</div>
     <div class="info">
-      <div class="title">COMPRA REALIZADA!</div>
-      <div class="detail">Saldo restante: <strong>R$${Game.saldo},00</strong> &nbsp;|&nbsp; Jogadas: <strong>${Game.jogadas}</strong></div>
+      <div class="title">SESSÃO CONCLUÍDA!</div>
+      <div class="detail">Saldo devolvido: <strong>R$${Game.saldo},00</strong></div>
     </div>
     <div style="font-size:1.5rem">✅</div>
   `;
@@ -504,14 +432,8 @@ function closePopup() {
 
 function restartMachine() {
   closePopup();
-  Game.saldo = 0; Game.codigoSelecionado = ""; Game.jogadas = 10; Game.animando = false;
+  Game.saldo = 0; Game.codigoSelecionado = ""; Game.animando = false;
   logEventos = [];
-
-  getBandeja().innerHTML = '';
-  getFlap()?.classList.remove('open');
-
-  const cat = document.getElementById('catActor');
-  if (cat) { cat.style.opacity = '0'; cat.style.left = '-60px'; cat.classList.remove('idle'); }
 
   Object.keys(produtos).forEach(k => {
     produtos[k].estoque = 3;
@@ -519,9 +441,15 @@ function restartMachine() {
     const est  = document.getElementById(`estoque-${k}`);
     const slot = document.getElementById(`slot-${k}`);
     if (img)  { img.style.opacity = '1'; img.style.transform = 'none'; img.style.filter = ''; }
-    if (est)  { est.textContent = 'x3'; est.style.color = ''; }
+    if (est)  { est.textContent = 'x3'; est.style.color = ''; est.style.fontSize = ''; }
     if (slot) slot.classList.remove('esgotado');
   });
+
+  getBandeja().innerHTML = '';
+  getFlap()?.classList.remove('open');
+
+  const cat = document.getElementById('catActor');
+  if (cat) { cat.style.opacity = '0'; cat.style.left = '-60px'; cat.classList.remove('idle'); }
 
   gerarMoedasIniciais();
   atualizarVisor();
