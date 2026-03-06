@@ -356,10 +356,13 @@ function clicarMoeda(valor, btnEl) {
 /* ================================================================
    TECLADO
 ================================================================ */
+let slotSelecionado = 0; // slot exato (1-9)
+
 function pressionar(numero) {
   if (animando) return;
   const num = parseInt(numero);
   if (num < 1 || num > 9) { atualizarVisor('CÓDIGO INVÁLIDO'); return; }
+  slotSelecionado   = num;
   codigoSelecionado = SLOT_GRUPO[num];
   atualizarVisor(`CÓDIGO: ${num} → Grupo ${codigoSelecionado} (R$${Produto[codigoSelecionado].preco})`);
   atualizarBotaoComprar();
@@ -367,6 +370,7 @@ function pressionar(numero) {
 
 function apagarCodigo() {
   codigoSelecionado = '';
+  slotSelecionado   = 0;
   atualizarVisor();
   atualizarBotaoComprar();
 }
@@ -428,6 +432,7 @@ function comprar() {
   if (!automato.podeComprar(prod)) { atualizarVisor('SALDO INSUFICIENTE');  return; }
 
   const codigo     = codigoSelecionado;
+  const slot       = slotSelecionado;
   const saldoAntes = automato.saldo;
   animando = true;
   document.getElementById('botaoComprar').disabled = true;
@@ -437,14 +442,13 @@ function comprar() {
 
   somCompra();
   totalComprasSessao++;
-  adicionarLog(`Comprou ${prod.nome} por R$${prod.preco},00`, 'buy');
+  adicionarLog(`Comprou ${prod.nome} (slot ${slot}) por R$${prod.preco},00`, 'buy');
   if (troco > 0) adicionarLog(`Troco: R$${troco},00`, 'troco');
   else           adicionarLog('Pagamento exato — sem troco', 'system');
 
-  gatoDispensa(codigo, () => {
-    const slotBase = codigo === 'A' ? 1 : codigo === 'B' ? 4 : 7;
-    const bandeja  = getBandeja();
-    bandeja.innerHTML = `<img src="IMG/doce${slotBase}.png" class="produto-img"
+  gatoDispensa(codigo, slot, () => {
+    const bandeja = getBandeja();
+    bandeja.innerHTML = `<img src="IMG/doce${slot}.png" class="produto-img"
       style="max-height:32px" onerror="this.style.opacity='.5'">`;
 
     devolverTrocoBandeja(troco, bandeja);
@@ -453,6 +457,7 @@ function comprar() {
     automato.reiniciarParaNovaCompra();
     animando = false;
     codigoSelecionado = '';
+    slotSelecionado   = 0;
     atualizarVisor();
     atualizarBotaoComprar();
     atualizarSlotsDisponiveis();
@@ -501,10 +506,8 @@ function removerDoce() {
 /* ================================================================
    RESET VISUAL DO SLOT — imagem volta após compra
 ================================================================ */
-function resetarImagemSlot(codigo) {
-  // Reseta APENAS o slotBase que foi animado pelo gato
-  const slotBase = codigo === 'A' ? 1 : codigo === 'B' ? 4 : 7;
-  const img = document.getElementById(`produto-img-${slotBase}`);
+function resetarImagemSlot(slot) {
+  const img = document.getElementById(`produto-img-${slot}`);
   if (img) {
     img.style.transition = 'opacity .4s, transform .4s';
     img.style.opacity    = '1';
@@ -537,11 +540,11 @@ function gatoEspia() {
 /* ================================================================
    GATO — DISPENSA
 ================================================================ */
-function gatoDispensa(codigo, callback) {
+function gatoDispensa(codigo, slot, callback) {
   const cat       = document.getElementById('catActor');
   const catItem   = document.getElementById('catItem');
   const glassH    = document.getElementById('glassFrame')?.offsetHeight || 376;
-  const slotBase  = codigo === 'A' ? 1 : codigo === 'B' ? 4 : 7;
+  const slotBase  = slot;
   const prodImgEl = document.getElementById(`produto-img-${slotBase}`);
   const shelfY    = glassH - (glassH / 4) * 2.3;
 
@@ -567,7 +570,7 @@ function gatoDispensa(codigo, callback) {
         prodImgEl.style.transform  = 'scale(.4)';
       }
       catItem.className = 'ca-item has-item';
-      catItem.innerHTML = `<img src="IMG/doce${slotBase}.png"
+      catItem.innerHTML = `<img src="IMG/doce${slot}.png"
         style="width:100%;height:100%;object-fit:contain;" onerror="this.style.display='none'">`;
 
       setTimeout(() => {
@@ -581,7 +584,7 @@ function gatoDispensa(codigo, callback) {
           catItem.innerHTML    = '';
           cat.classList.add('idle');
           confetti();
-          resetarImagemSlot(codigo); // imagem volta — sem estoque
+          resetarImagemSlot(slot); // imagem volta — sem estoque
 
           setTimeout(() => {
             cat.classList.remove('idle');
@@ -729,6 +732,7 @@ function novaSessao() {
 
   automato.reiniciarTudo();
   codigoSelecionado = '';
+  slotSelecionado   = 0;
   animando          = false;
   logEventos        = [];
   totalComprasSessao = 0;
