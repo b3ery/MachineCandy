@@ -368,8 +368,7 @@ function atualizarVisor(msg) {
     v.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,.8), 0 0 6px rgba(0,255,0,.1)';
   }
 
-  const compraLabel = totalComprasSessao > 0 ? `COMPRAS: ${totalComprasSessao}\n` : '';
-  v.innerText = (msg ? msg+'\n' : '') + compraLabel + `SALDO: R$${s},00\n${e.id}: ${e.descricao}`;
+  v.innerText = (msg ? msg+'\n' : '') + `SALDO: R$${s},00\n${e.id}: ${e.descricao}`;
 }
 
 /* ================================================================
@@ -772,9 +771,42 @@ function confetti() {
 /* ================================================================
    POPUP MIAU
 ================================================================ */
+function somGato() {
+  try {
+    const ctx = getAudio();
+    // Miau — frequência subindo e descendo
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const osc2 = ctx.createOscillator();
+    const gain2 = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(600, ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(900, ctx.currentTime + 0.15);
+    osc.frequency.linearRampToValueAtTime(700, ctx.currentTime + 0.35);
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime + 0.4);
+
+    // Segundo miau menor
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(500, ctx.currentTime + 0.5);
+    osc2.frequency.linearRampToValueAtTime(750, ctx.currentTime + 0.65);
+    osc2.frequency.linearRampToValueAtTime(580, ctx.currentTime + 0.8);
+    gain2.gain.setValueAtTime(0, ctx.currentTime + 0.5);
+    gain2.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.55);
+    gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.85);
+    osc2.connect(gain2); gain2.connect(ctx.destination);
+    osc2.start(ctx.currentTime + 0.5); osc2.stop(ctx.currentTime + 0.9);
+  } catch(e) {}
+}
+
 function mostrarPopupMiau() {
   const ov = document.getElementById('overlayMiau');
   ov.classList.add('ativa');
+  somGato();
   setTimeout(() => { ov.classList.remove('ativa'); mostrarRelatorio(); }, 2000);
 }
 
