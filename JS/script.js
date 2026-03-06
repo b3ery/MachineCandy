@@ -71,8 +71,11 @@ class AutomatoAFD {
     else if (simbolo === Simbolo.CANCELAR) this._estado = this._cancelar();
     else throw new Error(`Símbolo desconhecido: ${simbolo.id}`);
 
-    const horario = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    this._historico.push({ origem:antes, simbolo, destino:this._estado, saldo:this._saldo, horario });
+    // Só registra no histórico se o estado mudou ou é seleção/cancelar
+    if (this._estado !== antes || !simbolo.ehInsercao) {
+      const horario = new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+      this._historico.push({ origem:antes, simbolo, destino:this._estado, saldo:this._saldo, horario });
+    }
   }
 
   _inserir(valor) {
@@ -103,9 +106,10 @@ class AutomatoAFD {
    ESTADO GLOBAL
 ================================================================ */
 const automato        = new AutomatoAFD();
-let codigoSelecionado = '';
-let animando          = false;
-let logEventos        = [];
+let codigoSelecionado  = '';
+let slotSelecionado    = 0;
+let animando           = false;
+let logEventos         = [];
 let totalComprasSessao = 0;
 
 /* ================================================================
@@ -356,8 +360,6 @@ function clicarMoeda(valor, btnEl) {
 /* ================================================================
    TECLADO
 ================================================================ */
-let slotSelecionado = 0; // slot exato (1-9)
-
 function pressionar(numero) {
   if (animando) return;
   const num = parseInt(numero);
@@ -380,7 +382,7 @@ function apagarCodigo() {
 ================================================================ */
 function atualizarBotaoComprar() {
   const btn = document.getElementById('botaoComprar');
-  if (!codigoSelecionado) { btn.disabled = true; return; }
+  if (!codigoSelecionado || !slotSelecionado) { btn.disabled = true; return; }
   btn.disabled = !automato.podeComprar(Produto[codigoSelecionado]) || animando;
 }
 
@@ -391,7 +393,10 @@ function atualizarSlotsDisponiveis() {
   for (let i = 1; i <= 9; i++) {
     const slot = document.getElementById(`slot-${i}`);
     if (!slot) continue;
-    slot.classList.toggle('disponivel', automato.podeComprar(Produto[SLOT_GRUPO[i]]));
+    const pode = automato.podeComprar(Produto[SLOT_GRUPO[i]]);
+    slot.classList.toggle('disponivel', pode);
+    slot.style.cursor = pode ? 'pointer' : 'default';
+    slot.style.opacity = pode || automato.saldo === 0 ? '1' : '0.5';
   }
 }
 
