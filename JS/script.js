@@ -187,6 +187,152 @@ function somDesbloqueio() {
 }
 
 /* ================================================================
+   MÚSICA AMBIENTE — cafeteria lofi gerada via Web Audio API
+================================================================ */
+let musicaCtx = null;
+let musicaAtiva = false;
+
+function iniciarMusicaAmbiente() {
+  if (musicaAtiva) return;
+  musicaAtiva = true;
+
+  musicaCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const ctx = musicaCtx;
+
+  // Ruído de café — som ambiente de fundo (brown noise)
+  function criarBrownNoise() {
+    const bufferSize = ctx.sampleRate * 4;
+    const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    let ultimo = 0;
+    for (let i = 0; i < bufferSize; i++) {
+      const branco = Math.random() * 2 - 1;
+      data[i] = (ultimo + 0.02 * branco) / 1.02;
+      ultimo = data[i];
+      data[i] *= 3.5;
+    }
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    const gain = ctx.createGain();
+    gain.gain.value = 0.04;
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.value = 400;
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    source.start();
+    return source;
+  }
+
+  // Melodia lofi — notas pentatônicas suaves
+  const escala = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+  const bpm = 72;
+  const beat = 60 / bpm;
+
+  function tocarNota(freq, inicio, duracao, volume = 0.06) {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    const reverb = ctx.createConvolver();
+
+    // Reverb simples
+    const rBuf = ctx.createBuffer(2, ctx.sampleRate * 1.5, ctx.sampleRate);
+    for (let c = 0; c < 2; c++) {
+      const d = rBuf.getChannelData(c);
+      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 2);
+    }
+    reverb.buffer = rBuf;
+
+    osc.type = 'triangle';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, inicio);
+    gain.gain.linearRampToValueAtTime(volume, inicio + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.001, inicio + duracao);
+
+    osc.connect(gain);
+    gain.connect(reverb);
+    reverb.connect(ctx.destination);
+    gain.connect(ctx.destination);
+    osc.start(inicio);
+    osc.stop(inicio + duracao + 0.1);
+  }
+
+  // Acorde de fundo suave
+  function tocarAcorde(inicio) {
+    const acordes = [
+      [261.63, 329.63, 392.00],
+      [293.66, 369.99, 440.00],
+      [246.94, 329.63, 392.00],
+      [261.63, 311.13, 392.00],
+    ];
+    const acorde = acordes[Math.floor(Math.random() * acordes.length)];
+    acorde.forEach(freq => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.value = freq / 2; // oitava abaixo
+      gain.gain.setValueAtTime(0, inicio);
+      gain.gain.linearRampToValueAtTime(0.03, inicio + 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, inicio + beat * 4);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(inicio);
+      osc.stop(inicio + beat * 4 + 0.1);
+    });
+  }
+
+  // Loop da melodia
+  function loopMelodia() {
+    if (!musicaAtiva) return;
+    const agora = ctx.currentTime;
+    const numNotas = 8 + Math.floor(Math.random() * 4);
+
+    tocarAcorde(agora);
+
+    for (let i = 0; i < numNotas; i++) {
+      if (Math.random() > 0.25) { // pausa ocasional
+        const freq = escala[Math.floor(Math.random() * escala.length)];
+        const oitava = Math.random() > 0.3 ? 1 : 2;
+        tocarNota(freq * oitava, agora + i * beat * 0.5, beat * 0.8);
+      }
+    }
+
+    setTimeout(loopMelodia, numNotas * beat * 0.5 * 1000);
+  }
+
+  // Hi-hat suave
+  function hihat() {
+    if (!musicaAtiva) return;
+    const agora = ctx.currentTime;
+    for (let i = 0; i < 8; i++) {
+      if (Math.random() > 0.3) {
+        const buf = ctx.createBuffer(1, ctx.sampleRate * 0.05, ctx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let j = 0; j < d.length; j++) d[j] = Math.random() * 2 - 1;
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        const gain = ctx.createGain();
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'highpass';
+        filter.frequency.value = 8000;
+        gain.gain.setValueAtTime(0.03, agora + i * beat * 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.001, agora + i * beat * 0.5 + 0.05);
+        src.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        src.start(agora + i * beat * 0.5);
+      }
+    }
+    setTimeout(hihat, 8 * beat * 0.5 * 1000);
+  }
+
+  criarBrownNoise();
+  setTimeout(loopMelodia, 500);
+  setTimeout(hihat, 800);
+}
+
+/* ================================================================
    UTILITÁRIOS DOM
 ================================================================ */
 function getVisor()   { return document.getElementById('visor'); }
@@ -237,6 +383,7 @@ function iniciarJogo() {
     intro.style.display = 'none';
     game.style.display  = 'flex';
     game.classList.add('fade-in');
+    iniciarMusicaAmbiente();
     criarSlots();
     gerarMoedasCarteira();
     atualizarVisor();
@@ -410,6 +557,7 @@ function cancelarCompra() {
 
   if (saldoAtual <= 0) {
     atualizarVisor('NENHUM SALDO PARA DEVOLVER');
+    piscarVisor();
     setTimeout(() => atualizarVisor(), 1500);
     return;
   }
@@ -434,7 +582,7 @@ function comprar() {
   if (animando) return;
   if (!codigoSelecionado)          { atualizarVisor('SELECIONE A, B OU C'); return; }
   const prod = Produto[codigoSelecionado];
-  if (!automato.podeComprar(prod)) { atualizarVisor('SALDO INSUFICIENTE');  return; }
+  if (!automato.podeComprar(prod)) { atualizarVisor('SALDO INSUFICIENTE'); piscarVisor(); return; }
 
   const codigo     = codigoSelecionado;
   const slot       = slotSelecionado;
@@ -772,4 +920,23 @@ function pulsarSlotsDesbloqueados(saldo) {
       setTimeout(() => slot.classList.remove('pulse-unlock'), 1000);
     }
   }
+}
+
+/* ================================================================
+   PISCAR VISOR — saldo insuficiente
+================================================================ */
+function piscarVisor() {
+  const v = getVisor();
+  if (!v) return;
+  let pisca = 0;
+  const cor = v.style.color;
+  const intervalo = setInterval(() => {
+    v.style.opacity = v.style.opacity === '0' ? '1' : '0';
+    pisca++;
+    if (pisca >= 6) {
+      clearInterval(intervalo);
+      v.style.opacity = '1';
+      v.style.color = cor;
+    }
+  }, 100);
 }
