@@ -106,6 +106,81 @@ const automato        = new AutomatoAFD();
 let codigoSelecionado = '';
 let animando          = false;
 let logEventos        = [];
+let totalComprasSessao = 0;
+
+/* ================================================================
+   SOM — Web Audio API (sem arquivos externos)
+================================================================ */
+const AudioCtx = window.AudioContext || window.webkitAudioContext;
+let audioCtx = null;
+
+function getAudio() {
+  if (!audioCtx) audioCtx = new AudioCtx();
+  return audioCtx;
+}
+
+function somMoeda() {
+  try {
+    const ctx = getAudio();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.setValueAtTime(1200, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+    osc.start(); osc.stop(ctx.currentTime + 0.12);
+  } catch(e) {}
+}
+
+function somCompra() {
+  try {
+    const ctx = getAudio();
+    const notas = [523, 659, 784, 1047];
+    notas.forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.1);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime + i * 0.1);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.1 + 0.1);
+      osc.start(ctx.currentTime + i * 0.1);
+      osc.stop(ctx.currentTime + i * 0.1 + 0.1);
+    });
+  } catch(e) {}
+}
+
+function somCancelar() {
+  try {
+    const ctx = getAudio();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.setValueAtTime(400, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.2);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
+    osc.start(); osc.stop(ctx.currentTime + 0.2);
+  } catch(e) {}
+}
+
+function somDesbloqueio() {
+  try {
+    const ctx = getAudio();
+    [600, 900].forEach((freq, i) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.07);
+      gain.gain.setValueAtTime(0.18, ctx.currentTime + i * 0.07);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.07 + 0.12);
+      osc.start(ctx.currentTime + i * 0.07);
+      osc.stop(ctx.currentTime + i * 0.07 + 0.12);
+    });
+  } catch(e) {}
+}
 
 /* ================================================================
    UTILITÁRIOS DOM
@@ -123,7 +198,28 @@ function atualizarVisor(msg) {
   const v = getVisor();
   if (!v) return;
   const e = automato.estado;
-  v.innerText = (msg ? msg+'\n' : '') + `SALDO: R$${automato.saldo},00\n${e.id}: ${e.descricao}`;
+  const s = automato.saldo;
+
+  // Cor do visor por estado
+  if (e.aceite) {
+    v.style.color = '#00ff88'; v.style.borderColor = '#00ff88';
+    v.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,.8), 0 0 10px rgba(0,255,136,.4)';
+  } else if (s >= 8) {
+    v.style.color = '#b100ff'; v.style.borderColor = '#b100ff';
+    v.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,.8), 0 0 10px rgba(177,0,255,.5)';
+  } else if (s >= 7) {
+    v.style.color = '#ffcc00'; v.style.borderColor = '#aa8800';
+    v.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,.8), 0 0 8px rgba(255,200,0,.3)';
+  } else if (s >= 6) {
+    v.style.color = '#00ccff'; v.style.borderColor = '#006688';
+    v.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,.8), 0 0 8px rgba(0,200,255,.3)';
+  } else {
+    v.style.color = '#00ff00'; v.style.borderColor = '#1a3a1a';
+    v.style.boxShadow = 'inset 0 0 10px rgba(0,0,0,.8), 0 0 6px rgba(0,255,0,.1)';
+  }
+
+  const compraLabel = totalComprasSessao > 0 ? `COMPRAS: ${totalComprasSessao}\n` : '';
+  v.innerText = (msg ? msg+'\n' : '') + compraLabel + `SALDO: R$${s},00\n${e.id}: ${e.descricao}`;
 }
 
 /* ================================================================
@@ -240,8 +336,16 @@ function clicarMoeda(valor, btnEl) {
     const simbolo = valor === 1 ? Simbolo.MOEDA_1
                   : valor === 2 ? Simbolo.MOEDA_2
                   :               Simbolo.NOTA_5;
+    const saldoAntes = automato.saldo;
     automato.transicao(simbolo);
+    somMoeda();
     adicionarLog(`Inserido R$${valor},00 → saldo R$${automato.saldo},00`, 'coin');
+    // Toca som de desbloqueio quando novo grupo é ativado
+    const sb = automato.saldo;
+    if ((sb >= 6 && saldoAntes < 6) || (sb >= 7 && saldoAntes < 7) || (sb >= 8 && saldoAntes < 8)) {
+      setTimeout(somDesbloqueio, 150);
+      pulsarSlotsDesbloqueados(sb);
+    }
     atualizarVisor();
     atualizarBotaoComprar();
     atualizarSlotsDisponiveis();
@@ -300,6 +404,7 @@ function cancelarCompra() {
     return;
   }
 
+  somCancelar();
   adicionarLog(`Cancelado — devolvendo R$${saldoAtual},00`, 'troco');
   automato.transicao(Simbolo.CANCELAR);
 
@@ -330,6 +435,8 @@ function comprar() {
   automato.transicao(Simbolo.porCodigo(codigo));
   const troco = automato.saldo; // saldo restante após desconto = troco
 
+  somCompra();
+  totalComprasSessao++;
   adicionarLog(`Comprou ${prod.nome} por R$${prod.preco},00`, 'buy');
   if (troco > 0) adicionarLog(`Troco: R$${troco},00`, 'troco');
   else           adicionarLog('Pagamento exato — sem troco', 'system');
@@ -625,6 +732,7 @@ function novaSessao() {
   codigoSelecionado = '';
   animando          = false;
   logEventos        = [];
+  totalComprasSessao = 0;
 
   for (let i = 1; i <= 9; i++) {
     const img  = document.getElementById(`produto-img-${i}`);
@@ -641,4 +749,19 @@ function novaSessao() {
   atualizarVisor();
   atualizarBotaoComprar();
   adicionarLog('Nova sessão iniciada', 'system');
+}
+
+/* ================================================================
+   PULSE NOS SLOTS DESBLOQUEADOS
+================================================================ */
+function pulsarSlotsDesbloqueados(saldo) {
+  for (let i = 1; i <= 9; i++) {
+    const slot = document.getElementById(`slot-${i}`);
+    if (!slot) continue;
+    const grupo = SLOT_GRUPO[i];
+    if (automato.podeComprar(Produto[grupo])) {
+      slot.classList.add('pulse-unlock');
+      setTimeout(() => slot.classList.remove('pulse-unlock'), 1000);
+    }
+  }
 }
