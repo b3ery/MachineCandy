@@ -196,8 +196,9 @@ function iniciarMusicaAmbiente() {
   if (musicaAtiva) return;
   musicaAtiva = true;
 
-  musicaCtx = new (window.AudioContext || window.webkitAudioContext)();
+  musicaCtx = getAudio();
   const ctx = musicaCtx;
+  if (ctx.state === 'suspended') ctx.resume();
 
   // Ruído de café — som ambiente de fundo (brown noise)
   function criarBrownNoise() {
@@ -774,6 +775,7 @@ function confetti() {
 function somGato() {
   try {
     const ctx = getAudio();
+    if (ctx.state === 'suspended') ctx.resume();
     // Miau — frequência subindo e descendo
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
