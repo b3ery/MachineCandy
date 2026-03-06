@@ -84,9 +84,7 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .press-start-text { margin-top:24px;font-family:'Press Start 2P',monospace;font-size:.5rem;color:rgba(200,150,255,.7);letter-spacing:2px;animation:blinkText 1.2s step-end infinite; }
 @keyframes blinkText { 0%,100%{opacity:1}50%{opacity:0} }
 
-/* ================================================================
-   TELA DO JOGO
-   ================================================================ */
+
 /* ================================================================
    TELA DO JOGO
    ================================================================ */
@@ -284,4 +282,5 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 @keyframes machineVib{0%,100%{transform:translateX(0)}25%{transform:translateX(-1px)}75%{transform:translateX(1px)}}
 .machine.vibrate{animation:machineVib .14s ease 3;}
 @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(90px) rotate(720deg);opacity:0}}
+
 
