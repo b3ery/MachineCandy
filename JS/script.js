@@ -397,6 +397,7 @@ function atualizarSlotsDisponiveis() {
 function cancelarCompra() {
   if (animando) return;
   const saldoAtual = automato.saldo;
+  somCancelar();
 
   if (saldoAtual <= 0) {
     atualizarVisor('NENHUM SALDO PARA DEVOLVER');
@@ -404,7 +405,6 @@ function cancelarCompra() {
     return;
   }
 
-  somCancelar();
   adicionarLog(`Cancelado — devolvendo R$${saldoAtual},00`, 'troco');
   automato.transicao(Simbolo.CANCELAR);
 
@@ -502,14 +502,13 @@ function removerDoce() {
    RESET VISUAL DO SLOT — imagem volta após compra
 ================================================================ */
 function resetarImagemSlot(codigo) {
-  for (let i = 1; i <= 9; i++) {
-    if (SLOT_GRUPO[i] !== codigo) continue;
-    const img = document.getElementById(`produto-img-${i}`);
-    if (img) {
-      img.style.transition = 'opacity .4s, transform .4s';
-      img.style.opacity    = '1';
-      img.style.transform  = 'none';
-    }
+  // Reseta APENAS o slotBase que foi animado pelo gato
+  const slotBase = codigo === 'A' ? 1 : codigo === 'B' ? 4 : 7;
+  const img = document.getElementById(`produto-img-${slotBase}`);
+  if (img) {
+    img.style.transition = 'opacity .4s, transform .4s';
+    img.style.opacity    = '1';
+    img.style.transform  = 'none';
   }
 }
 
