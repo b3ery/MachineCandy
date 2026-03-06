@@ -294,3 +294,18 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 @keyframes machineVib{0%,100%{transform:translateX(0)}25%{transform:translateX(-1px)}75%{transform:translateX(1px)}}
 .machine.vibrate{animation:machineVib .14s ease 3;}
 @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(90px) rotate(720deg);opacity:0}}
+
+/* ================================================================
+   PULSE SLOTS DESBLOQUEADOS
+================================================================ */
+@keyframes pulseUnlock {
+  0%   { box-shadow: 0 0 0px rgba(0,255,150,.0);  background: linear-gradient(180deg,rgba(0,255,100,.07),rgba(0,0,0,.3)); }
+  40%  { box-shadow: 0 0 18px rgba(0,255,150,.8); background: linear-gradient(180deg,rgba(0,255,100,.22),rgba(0,0,0,.3)); }
+  100% { box-shadow: 0 0 0px rgba(0,255,150,.0);  background: linear-gradient(180deg,rgba(0,255,100,.07),rgba(0,0,0,.3)); }
+}
+.slot.pulse-unlock {
+  animation: pulseUnlock .9s ease forwards;
+}
+
+/* Visor — transição suave de cor */
+.visor { transition: color .4s, border-color .4s, box-shadow .4s; }
