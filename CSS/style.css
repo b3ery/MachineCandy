@@ -84,23 +84,34 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .press-start-text { margin-top:24px;font-family:'Press Start 2P',monospace;font-size:.5rem;color:rgba(200,150,255,.7);letter-spacing:2px;animation:blinkText 1.2s step-end infinite; }
 @keyframes blinkText { 0%,100%{opacity:1}50%{opacity:0} }
 
-/* FUNDO DO SITE */
 
-.lofi-bg{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
 
-  background:url("IMG/bg-site.gif") center center / cover no-repeat;
+/* ================================================================
+   TELA DO JOGO
+   ================================================================ */
+.game-screen { position:fixed;inset:0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden; }
+.game-screen.fade-in { animation:fadeIn .8s ease forwards; }
+@keyframes fadeIn { from{opacity:0}to{opacity:1} }
 
-  z-index:0;
-}
-
-.game-screen{
-  position:relative;
-}
+.lofi-bg { position:fixed;inset:0;z-index:0;overflow:hidden;background:#0c0018 url('IMG/bg-site.gif') center/cover no-repeat; }
+.lofi-sky { position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 60% 40% at 70% 30%,rgba(80,0,120,.3) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 20% 20%,rgba(60,0,100,.2) 0%,transparent 70%); }
+.lofi-window { position:absolute;top:6%;left:50%;transform:translateX(-50%);width:480px;height:320px;border:6px solid #2a1840;border-radius:4px;overflow:hidden;box-shadow:0 0 40px rgba(80,0,150,.4),inset 0 0 60px rgba(0,0,0,.5);z-index:2; }
+.lofi-city { position:absolute;inset:0;background:linear-gradient(180deg,#05000f 0%,#0a0020 40%,#150030 70%,#0d0018 100%);overflow:hidden; }
+.lofi-moon { position:absolute;top:15%;left:50%;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#efe8ff,#c8a0ff 60%,#9060cc);box-shadow:0 0 20px rgba(200,160,255,.5),0 0 60px rgba(150,80,220,.25); }
+.building { position:absolute;bottom:0;background:#0a0018;box-shadow:inset 0 0 0 1px rgba(80,0,120,.3); }
+.building::before { content:'';position:absolute;inset:8px 4px;background:repeating-linear-gradient(0deg,transparent 0,transparent 6px,rgba(177,0,255,.15) 6px,rgba(177,0,255,.15) 8px),repeating-linear-gradient(90deg,transparent 0,transparent 6px,rgba(177,0,255,.15) 6px,rgba(177,0,255,.15) 8px); }
+.b1{left:0%;width:60px;height:160px;background:#070012;}.b2{left:5%;width:45px;height:110px;}.b3{left:12%;width:70px;height:200px;background:#060010;}.b4{left:22%;width:50px;height:140px;}.b5{left:31%;width:80px;height:180px;background:#070012;}.b6{left:43%;width:55px;height:120px;}.b7{left:52%;width:90px;height:240px;background:#060010;}
+.window-frame { position:absolute;inset:0;pointer-events:none;border:6px solid #1e0f30; }
+.window-frame::before { content:'';position:absolute;top:0;bottom:0;left:50%;transform:translateX(-50%);width:6px;background:#1e0f30; }
+.window-frame::after { content:'';position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);height:6px;background:#1e0f30; }
+.window-glow { position:absolute;inset:0;pointer-events:none;background:linear-gradient(135deg,rgba(150,80,255,.06) 0%,transparent 50%); }
+.lofi-floor { position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(180deg,#120022 0%,#0a0015 100%);border-top:2px solid #2a0050;z-index:2; }
+.lofi-floor::before { content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0,transparent 79px,rgba(80,0,150,.12) 79px,rgba(80,0,150,.12) 80px),repeating-linear-gradient(0deg,transparent 0,transparent 39px,rgba(80,0,150,.08) 39px,rgba(80,0,150,.08) 40px); }
+.lofi-floor-reflection { position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:600px;height:80px;background:radial-gradient(ellipse 50% 100% at 50% 100%,rgba(100,0,180,.12) 0%,transparent 100%);pointer-events:none;z-index:2; }
+.lofi-plant { position:absolute;bottom:115px;left:3%;display:flex;flex-direction:column;align-items:center;z-index:2; }
+.lp-leaves{position:relative;width:60px;height:70px;margin-bottom:-4px;}.lp-leaf{position:absolute;border-radius:50% 5px 50% 5px;transform-origin:bottom center;}.lp-l1{width:22px;height:42px;background:linear-gradient(160deg,#3a0060,#1a0030);bottom:0;left:4px;transform:rotate(-30deg);}.lp-l2{width:20px;height:38px;background:linear-gradient(160deg,#4a0080,#280045);bottom:0;left:20px;transform:rotate(5deg);}.lp-l3{width:18px;height:35px;background:linear-gradient(160deg,#3a0060,#1a0030);bottom:0;left:34px;transform:rotate(32deg);}.lp-pot{width:40px;height:32px;background:linear-gradient(160deg,#2a0045,#150025);border-radius:3px 3px 8px 8px;border:1px solid #4a0070;}
+.string-lights{position:absolute;top:3%;left:0;right:0;height:40px;pointer-events:none;z-index:2;}.sl-wire{position:absolute;top:8px;left:0;right:0;height:1px;background:rgba(80,0,150,.4);}.sl-bulb{position:absolute;top:0;width:10px;height:14px;background:radial-gradient(circle at 50% 40%,#ffe0ff,#cc60ff 60%,#7a00b3);border-radius:50% 50% 40% 40%;box-shadow:0 0 6px rgba(200,100,255,.6),0 0 14px rgba(177,0,255,.3);animation:bulbFlicker 4s ease-in-out infinite;}.sl-bulb:nth-child(odd){animation-delay:.5s;}.sl-bulb:nth-child(3n){animation-delay:1.2s;background:radial-gradient(circle at 50% 40%,#ffffd0,#ffcc40 60%,#cc8800);box-shadow:0 0 6px rgba(255,200,60,.6),0 0 14px rgba(255,160,0,.3);}
+@keyframes bulbFlicker{0%,90%,100%{opacity:1}92%{opacity:.4}95%{opacity:1}97%{opacity:.6}}
 /* ================================================================
    CENA
    ================================================================ */
@@ -282,6 +293,7 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 @keyframes machineVib{0%,100%{transform:translateX(0)}25%{transform:translateX(-1px)}75%{transform:translateX(1px)}}
 .machine.vibrate{animation:machineVib .14s ease 3;}
 @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(90px) rotate(720deg);opacity:0}}
+
 
 
 
