@@ -91,7 +91,7 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .game-screen.fade-in { animation:fadeIn .8s ease forwards; }
 @keyframes fadeIn { from{opacity:0}to{opacity:1} }
 
-.lofi-bg { position:fixed;inset:0;z-index:0;overflow:hidden;background:#0c0018 url('IMG/bg-site.gif') center/cover no-repeat; }
+.lofi-bg { position:fixed;inset:0;z-index:0;overflow:hidden;background:#0c0018 url('../IMG/bg-site.gif') center/cover no-repeat; }
 .lofi-sky, .lofi-window, .lofi-city, .lofi-moon,
 .lofi-floor, .lofi-floor-reflection, .lofi-plant,
 .string-lights, .building, .window-frame, .window-glow { display: none; }
