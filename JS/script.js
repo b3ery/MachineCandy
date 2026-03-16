@@ -17,14 +17,14 @@ const SLOT_GRUPO = { 1:'A',2:'A',3:'A', 4:'B',5:'B',6:'B', 7:'C',8:'C',9:'C' };
    AFD — Estados Q
 ================================================================ */
 const Estado = Object.freeze({
-  S0:     Object.freeze({ id:'S0',     label:'R$0',  descricao:'Aguardando pagamento',                aceite:false }),
-  S1:     Object.freeze({ id:'S1',     label:'R$1',  descricao:'R$1,00 inserido',                     aceite:false }),
-  S2:     Object.freeze({ id:'S2',     label:'R$2',  descricao:'R$2,00 inserido',                     aceite:false }),
-  S3:     Object.freeze({ id:'S3',     label:'R$3',  descricao:'R$3,00 inserido',                     aceite:false }),
-  S4:     Object.freeze({ id:'S4',     label:'R$4',  descricao:'R$4,00 inserido',                     aceite:false }),
-  S5:     Object.freeze({ id:'S5',     label:'R$5',  descricao:'R$5,00 inserido',                     aceite:false }),
-  S6:     Object.freeze({ id:'S6',     label:'R$6',  descricao:'Saldo suficiente para Doces A',        aceite:false }),
-  S7:     Object.freeze({ id:'S7',     label:'R$7',  descricao:'Saldo suficiente para Doces A e B',   aceite:false }),
+  S0:     Object.freeze({ id:'S0',     label:'R$0',  descricao:'Aguardando pagamento',                 aceite:false }),
+  S1:     Object.freeze({ id:'S1',     label:'R$1',  descricao:'R$1,00 inserido',                      aceite:false }),
+  S2:     Object.freeze({ id:'S2',     label:'R$2',  descricao:'R$2,00 inserido',                      aceite:false }),
+  S3:     Object.freeze({ id:'S3',     label:'R$3',  descricao:'R$3,00 inserido',                      aceite:false }),
+  S4:     Object.freeze({ id:'S4',     label:'R$4',  descricao:'R$4,00 inserido',                      aceite:false }),
+  S5:     Object.freeze({ id:'S5',     label:'R$5',  descricao:'R$5,00 inserido',                      aceite:false }),
+  S6:     Object.freeze({ id:'S6',     label:'R$6',  descricao:'Saldo suficiente para Doces A',         aceite:false }),
+  S7:     Object.freeze({ id:'S7',     label:'R$7',  descricao:'Saldo suficiente para Doces A e B',    aceite:false }),
   S8:     Object.freeze({ id:'S8',     label:'R$8+', descricao:'Saldo suficiente para Doces A, B e C', aceite:false }),
   DISP_A: Object.freeze({ id:'DISP_A', label:'Doce A', descricao:'Doce A dispensado ✓', aceite:true, produto:'A' }),
   DISP_B: Object.freeze({ id:'DISP_B', label:'Doce B', descricao:'Doce B dispensado ✓', aceite:true, produto:'B' }),
@@ -628,7 +628,6 @@ function somGato() {
   try {
     const ctx = getAudio();
     if (ctx.state === 'suspended') ctx.resume();
-    // Miau — frequência subindo e descendo
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     const osc2 = ctx.createOscillator();
@@ -644,7 +643,6 @@ function somGato() {
     osc.connect(gain); gain.connect(ctx.destination);
     osc.start(); osc.stop(ctx.currentTime + 0.4);
 
-    // Segundo miau menor
     osc2.type = 'sine';
     osc2.frequency.setValueAtTime(500, ctx.currentTime + 0.5);
     osc2.frequency.linearRampToValueAtTime(750, ctx.currentTime + 0.65);
