@@ -9,9 +9,6 @@
 </head>
 <body>
 
-  <!-- ============================================================
-       TELA DE ENTRADA
-  ============================================================ -->
   <div class="intro-screen" id="introScreen">
     <div class="stars"></div>
     <div class="stars2"></div>
@@ -33,53 +30,14 @@
     <div class="press-start-text">PRESSIONE START PARA JOGAR</div>
   </div>
 
-  <!-- ============================================================
-       TELA DO JOGO
-  ============================================================ -->
   <div class="game-screen" id="gameScreen" style="display:none;">
 
-    <div class="lofi-bg" style="background-image: url('IMG/bg-site.gif') !important; background-size: cover !important; background-position: center !important;">
-      <div class="lofi-sky"></div>
-      <div class="lofi-window">
-        <div class="lofi-city">
-          <div class="building b1"></div><div class="building b2"></div>
-          <div class="building b3"></div><div class="building b4"></div>
-          <div class="building b5"></div><div class="building b6"></div>
-          <div class="building b7"></div>
-          <div class="lofi-moon"></div>
-        </div>
-        <div class="window-frame"></div>
-        <div class="window-glow"></div>
-      </div>
-      <div class="lofi-floor"></div>
-      <div class="lofi-floor-reflection"></div>
-      <div class="lofi-plant">
-        <div class="lp-leaves">
-          <div class="lp-leaf lp-l1"></div>
-          <div class="lp-leaf lp-l2"></div>
-          <div class="lp-leaf lp-l3"></div>
-        </div>
-        <div class="lp-pot"></div>
-      </div>
-      <div class="string-lights">
-        <div class="sl-wire"></div>
-        <div class="sl-bulb" style="left:10%"></div>
-        <div class="sl-bulb" style="left:22%"></div>
-        <div class="sl-bulb" style="left:34%"></div>
-        <div class="sl-bulb" style="left:46%"></div>
-        <div class="sl-bulb" style="left:58%"></div>
-        <div class="sl-bulb" style="left:70%"></div>
-        <div class="sl-bulb" style="left:82%"></div>
-        <div class="sl-bulb" style="left:92%"></div>
-      </div>
-    </div>
+    <div class="lofi-bg"></div>
 
-    <!-- CARTEIRA — 3 moedas fixas (R$1, R$2, R$5), clicáveis -->
     <div class="carteira" id="carteira"></div>
 
     <div class="scene">
 
-      <!-- MÁQUINA -->
       <main class="machine" id="machine">
         <div class="machine-shell">
 
@@ -126,7 +84,6 @@
         </div>
       </main>
 
-      <!-- PAINEL LATERAL -->
       <aside class="side-panel">
         <div class="terminal-brand">
           <div class="terminal-brand-led"></div>
@@ -164,7 +121,6 @@
 
     </div>
 
-    <!-- POPUP RELATÓRIO -->
     <div class="popup-overlay" id="popupOverlay" aria-hidden="true">
       <div class="popup-box">
         <header class="popup-head">
@@ -182,7 +138,6 @@
       </div>
     </div>
 
-    <!-- OVERLAY MIAU -->
     <div class="sobreposicao" id="overlayMiau">
       <div class="popup-miau">🐱 Miau! Pegue seus docinhos.</div>
     </div>
@@ -190,5 +145,32 @@
   </div>
 
   <script src="JS/script.js"></script>
+  <script>
+    // Escala a cena para caber em qualquer tela
+    function escalarCena() {
+      const scene = document.querySelector('.scene');
+      if (!scene) return;
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const sceneW = 340 + 210; 
+      const sceneH = 620;
+      // Desconta espaço da carteira (80px) e margem (16px)
+      const dispW = vw - 96;
+      const dispH = vh - 16;
+      const scaleX = dispW / sceneW;
+      const scaleY = dispH / sceneH;
+      const scale  = Math.min(scaleX, scaleY, 1); 
+      scene.style.transform = `scale(${scale})`;
+      scene.style.transformOrigin = 'bottom center';
+    }
+    window.addEventListener('resize', escalarCena);
+    // Roda após iniciarJogo
+    const _iniciarJogoOrig = window.iniciarJogo;
+    window.iniciarJogo = function() {
+      _iniciarJogoOrig();
+      setTimeout(escalarCena, 850);
+    };
+    window.addEventListener('load', escalarCena);
+  </script>
 </body>
 </html>
