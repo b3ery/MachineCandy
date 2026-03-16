@@ -91,10 +91,8 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 .game-screen.fade-in { animation:fadeIn .8s ease forwards; }
 @keyframes fadeIn { from{opacity:0}to{opacity:1} }
 
-.lofi-bg { position:fixed;inset:0;z-index:0;overflow:hidden;background:#0c0018 url('../IMG/bg-site.gif') center/cover no-repeat; }
-.lofi-sky, .lofi-window, .lofi-city, .lofi-moon,
-.lofi-floor, .lofi-floor-reflection, .lofi-plant,
-.string-lights, .building, .window-frame, .window-glow { display: none; }
+.lofi-bg { position:fixed;inset:0;z-index:0;overflow:hidden;background:#0c0018 url('IMG/bg-site.gif') center/cover no-repeat; }
+.lofi-sky { position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 60% 40% at 70% 30%,rgba(80,0,120,.3) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 20% 20%,rgba(60,0,100,.2) 0%,transparent 70%); }
 .lofi-window { position:absolute;top:6%;left:50%;transform:translateX(-50%);width:480px;height:320px;border:6px solid #2a1840;border-radius:4px;overflow:hidden;box-shadow:0 0 40px rgba(80,0,150,.4),inset 0 0 60px rgba(0,0,0,.5);z-index:2; }
 .lofi-city { position:absolute;inset:0;background:linear-gradient(180deg,#05000f 0%,#0a0020 40%,#150030 70%,#0d0018 100%);overflow:hidden; }
 .lofi-moon { position:absolute;top:15%;left:50%;transform:translateX(-50%);width:60px;height:60px;border-radius:50%;background:radial-gradient(circle at 40% 35%,#efe8ff,#c8a0ff 60%,#9060cc);box-shadow:0 0 20px rgba(200,160,255,.5),0 0 60px rgba(150,80,220,.25); }
@@ -296,16 +294,40 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(90px) rotate(720deg);opacity:0}}
 
 /* ================================================================
-   PULSE SLOTS DESBLOQUEADOS
-================================================================ */
-@keyframes pulseUnlock {
-  0%   { box-shadow: 0 0 0px rgba(0,255,150,.0);  background: linear-gradient(180deg,rgba(0,255,100,.07),rgba(0,0,0,.3)); }
-  40%  { box-shadow: 0 0 18px rgba(0,255,150,.8); background: linear-gradient(180deg,rgba(0,255,100,.22),rgba(0,0,0,.3)); }
-  100% { box-shadow: 0 0 0px rgba(0,255,150,.0);  background: linear-gradient(180deg,rgba(0,255,100,.07),rgba(0,0,0,.3)); }
-}
-.slot.pulse-unlock {
-  animation: pulseUnlock .9s ease forwards;
+   RESPONSIVO — escala a cena inteira para caber na tela
+   ================================================================ */
+
+/* Wrapper de escala */
+.scene-wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  transform-origin: bottom center;
+  width: 100%;
 }
 
-/* Visor — transição suave de cor */
-.visor { transition: color .4s, border-color .4s, box-shadow .4s; }
+/* Tela cheia padrão: escala via JS */
+.game-screen {
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Carteira responsiva */
+@media (max-width: 700px) {
+  .carteira {
+    left: 4px;
+    padding: 6px 4px;
+    gap: 4px;
+  }
+  .moeda { width:38px!important; height:38px!important; }
+  .moeda[data-val="5"] { width:44px!important; height:44px!important; }
+}
+
+/* Popup responsivo */
+@media (max-width: 650px) {
+  .popup-box { width: 95vw; }
+  .popup-head { padding: 12px 14px 10px; }
+  .popup-body { padding: 12px 14px; }
+  .popup-foot { padding: 10px 14px; flex-wrap: wrap; gap: 6px; }
+  .popup-btn  { font-size: .75rem; padding: 8px 14px; }
+}
