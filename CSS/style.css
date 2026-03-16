@@ -92,6 +92,12 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 @keyframes fadeIn { from{opacity:0}to{opacity:1} }
 
 .lofi-bg { position:fixed;inset:0;z-index:0;overflow:hidden;background:#0c0018 url('IMG/bg-site.gif') center/cover no-repeat; }
+
+/* No celular o GIF fica fixo na parte inferior onde está a máquina */
+@media (max-width: 767px) {
+  .lofi-bg { background-position: center bottom; }
+  .game-screen { align-items: flex-end; justify-content: flex-end; }
+}
 .lofi-sky { position:absolute;inset:0;z-index:2;background:radial-gradient(ellipse 60% 40% at 70% 30%,rgba(80,0,120,.3) 0%,transparent 70%),radial-gradient(ellipse 40% 30% at 20% 20%,rgba(60,0,100,.2) 0%,transparent 70%); }
 .lofi-window { position:absolute;top:6%;left:50%;transform:translateX(-50%);width:480px;height:320px;border:6px solid #2a1840;border-radius:4px;overflow:hidden;box-shadow:0 0 40px rgba(80,0,150,.4),inset 0 0 60px rgba(0,0,0,.5);z-index:2; }
 .lofi-city { position:absolute;inset:0;background:linear-gradient(180deg,#05000f 0%,#0a0020 40%,#150030 70%,#0d0018 100%);overflow:hidden; }
@@ -294,7 +300,7 @@ body { font-family:'Share Tech Mono',monospace; background:#1a0030; }
 @keyframes confettiFall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(90px) rotate(720deg);opacity:0}}
 
 /* ================================================================
-   RESPONSIVO — escala a cena inteira para caber na tela
+   RESPONSIVO 
    ================================================================ */
 
 /* Wrapper de escala */
