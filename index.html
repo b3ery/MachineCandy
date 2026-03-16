@@ -154,13 +154,14 @@
       const vh = window.innerHeight;
       const sceneW = 340 + 210; 
       const sceneH = 620;
-      // Desconta espaço da carteira (80px) e margem (16px)
-      const dispW = vw - 96;
-      const dispH = vh - 16;
-      const scaleX = dispW / sceneW;
-      const scaleY = dispH / sceneH;
-      const scale  = Math.min(scaleX, scaleY, 1); 
-      scene.style.transform = `scale(${scale})`;
+      const isMobile = vw < 768;
+      // margem mínima para aproveitar ao máximo a tela
+      const margemW = isMobile ? 68 : 96;
+      const margemH = isMobile ? 4  : 16;
+      const dispW = vw - margemW;
+      const dispH = vh - margemH;
+      const scale = Math.min(dispW / sceneW, dispH / sceneH, 1);
+      scene.style.transform       = `scale(${scale})`;
       scene.style.transformOrigin = 'bottom center';
     }
     window.addEventListener('resize', escalarCena);
