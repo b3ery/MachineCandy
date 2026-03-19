@@ -400,7 +400,7 @@ function atualizarSlotsDisponiveis() {
 }
 
 /* ================================================================
-   CANCELAR — devolve saldo em moedas na bandeja
+   CANCELAR — devolve saldo, mostra popup AFD só com continuar
 ================================================================ */
 function cancelarCompra() {
   if (animando) return;
@@ -424,7 +424,9 @@ function cancelarCompra() {
   atualizarVisor('CANCELADO — RETIRE SEU DINHEIRO 💰');
   atualizarBotaoComprar();
   atualizarSlotsDisponiveis();
-  setTimeout(() => atualizarVisor(), 2500);
+
+  // Mostra popup AFD do cancelamento após animação do troco
+  setTimeout(() => mostrarRelatorio('cancelar'), 1800);
 }
 
 /* ================================================================
@@ -664,24 +666,36 @@ function mostrarPopupMiau() {
 
 /* ================================================================
    RELATÓRIO FINAL
+   modo: undefined = compra normal | 'cancelar' = só continuar
 ================================================================ */
-function mostrarRelatorio() {
+function mostrarRelatorio(modo) {
   const body = document.getElementById('popupBody');
   body.innerHTML = '';
 
-  const compras      = logEventos.filter(e => e.categoria === 'buy');
-  const totalCompras = compras.length;
-
+  // Bloco de resumo — muda conforme o modo
   const resumo = document.createElement('div');
   resumo.className = 'popup-purchase';
-  resumo.innerHTML = `
-    <div class="icon">🍬</div>
-    <div class="info">
-      <div class="title">SESSÃO — ${totalCompras} COMPRA${totalCompras !== 1 ? 'S' : ''}</div>
-      <div class="detail">${compras.map(c => c.mensagem).join('<br>') || 'Nenhuma compra realizada'}</div>
-    </div>
-    <div style="font-size:1.5rem">✅</div>
-  `;
+  if (modo === 'cancelar') {
+    resumo.innerHTML = `
+      <div class="icon">💰</div>
+      <div class="info">
+        <div class="title">OPERAÇÃO CANCELADA</div>
+        <div class="detail">Saldo devolvido na bandeja.<br>Retire suas moedas e continue!</div>
+      </div>
+      <div style="font-size:1.5rem">↩</div>
+    `;
+  } else {
+    const compras      = logEventos.filter(e => e.categoria === 'buy');
+    const totalCompras = compras.length;
+    resumo.innerHTML = `
+      <div class="icon">🍬</div>
+      <div class="info">
+        <div class="title">SESSÃO — ${totalCompras} COMPRA${totalCompras !== 1 ? 'S' : ''}</div>
+        <div class="detail">${compras.map(c => c.mensagem).join('<br>') || 'Nenhuma compra realizada'}</div>
+      </div>
+      <div style="font-size:1.5rem">✅</div>
+    `;
+  }
   body.appendChild(resumo);
 
   // Timeline AFD
@@ -737,6 +751,10 @@ function mostrarRelatorio() {
   logSec.appendChild(entries);
   body.appendChild(logSec);
 
+  // Controla botões do footer: cancelar = só "Continuar Comprando"
+  const btnNovaSessao = document.querySelector('.popup-btn.restart');
+  if (btnNovaSessao) btnNovaSessao.style.display = modo === 'cancelar' ? 'none' : '';
+
   document.getElementById('popupOverlay')?.classList.add('visible');
   document.getElementById('popupOverlay')?.setAttribute('aria-hidden','false');
 }
@@ -747,6 +765,10 @@ function mostrarRelatorio() {
 function continuarComprando() {
   document.getElementById('popupOverlay')?.classList.remove('visible');
   document.getElementById('popupOverlay')?.setAttribute('aria-hidden','true');
+
+  // Restaura botão Nova Sessão para próxima abertura normal
+  const btnNovaSessao = document.querySelector('.popup-btn.restart');
+  if (btnNovaSessao) btnNovaSessao.style.display = '';
 
   getBandeja().innerHTML = '';
   getFlap()?.classList.remove('open');
