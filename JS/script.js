@@ -396,7 +396,8 @@ function atualizarSlotsDisponiveis() {
     const pode = automato.podeComprar(Produto[SLOT_GRUPO[i]]);
     slot.classList.toggle('disponivel', pode);
     slot.style.cursor = pode ? 'pointer' : 'default';
-    slot.style.opacity = pode || automato.saldo === 0 ? '1' : '0.5';
+    // Só escurece se tiver saldo inserido mas não for suficiente pro grupo
+    slot.style.opacity = (automato.saldo > 0 && !pode) ? '0.5' : '1';
   }
 }
 
@@ -818,14 +819,28 @@ function novaSessao() {
    PULSE NOS SLOTS DESBLOQUEADOS
 ================================================================ */
 function pulsarSlotsDesbloqueados(saldo) {
+  // Cor do contorno por grupo desbloqueado
+  const cor = saldo >= 8 ? '#b100ff' : saldo >= 7 ? '#ffcc00' : '#00ccff';
+
   for (let i = 1; i <= 9; i++) {
     const slot = document.getElementById(`slot-${i}`);
     if (!slot) continue;
-    const grupo = SLOT_GRUPO[i];
-    if (automato.podeComprar(Produto[grupo])) {
-      slot.classList.add('pulse-unlock');
-      setTimeout(() => slot.classList.remove('pulse-unlock'), 1000);
-    }
+    if (!automato.podeComprar(Produto[SLOT_GRUPO[i]])) continue;
+
+    // Pulsa 3 vezes com o contorno da cor do grupo
+    let pulso = 0;
+    const intervalo = setInterval(() => {
+      slot.classList.toggle('pulse-unlock');
+      slot.style.boxShadow = pulso % 2 === 0
+        ? `0 0 14px 3px ${cor}, inset 0 0 8px ${cor}44`
+        : '';
+      pulso++;
+      if (pulso >= 6) {
+        clearInterval(intervalo);
+        slot.classList.remove('pulse-unlock');
+        slot.style.boxShadow = '';
+      }
+    }, 180);
   }
 }
 
