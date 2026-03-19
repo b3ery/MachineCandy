@@ -113,7 +113,7 @@ let logEventos         = [];
 let totalComprasSessao = 0;
 
 /* ================================================================
-   SOM — Web Audio API 
+   SOM — Web Audio API (sem arquivos externos)
 ================================================================ */
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
@@ -246,7 +246,7 @@ function iniciarJogo() {
 }
 
 /* ================================================================
-   PRATELEIRAS TRÊS POR TRÊS
+   PRATELEIRAS 3x3 — sem estoque real
 ================================================================ */
 function criarSlots() {
   const container = document.getElementById('shelves');
@@ -287,7 +287,7 @@ function criarSlots() {
 }
 
 /* ================================================================
-   CARTEIRA — 3 moedas fixas 1, 2 E 5
+   CARTEIRA — 3 moedas fixas
 ================================================================ */
 function gerarMoedasCarteira() {
   const carteira = document.getElementById('carteira');
@@ -348,6 +348,7 @@ function clicarMoeda(valor, btnEl) {
     if ((sb >= 6 && saldoAntes < 6) || (sb >= 7 && saldoAntes < 7) || (sb >= 8 && saldoAntes < 8)) {
       setTimeout(somDesbloqueio, 150);
       pulsarSlotsDesbloqueados(sb);
+      setTimeout(piscarVisor, 150); // pisca o visor na cor do novo grupo
     }
     atualizarVisor();
     atualizarBotaoComprar();
@@ -400,7 +401,7 @@ function atualizarSlotsDisponiveis() {
 }
 
 /* ================================================================
-   CANCELAR — devolve saldo, mostra O relatório só com continuar
+   CANCELAR — devolve saldo, mostra popup AFD só com continuar
 ================================================================ */
 function cancelarCompra() {
   if (animando) return;
@@ -445,7 +446,7 @@ function comprar() {
   document.getElementById('botaoComprar').disabled = true;
 
   automato.transicao(Simbolo.porCodigo(codigo));
-  const troco = automato.saldo; 
+  const troco = automato.saldo; // saldo restante após desconto = troco
 
   somCompra();
   totalComprasSessao++;
@@ -835,14 +836,13 @@ function piscarVisor() {
   const v = getVisor();
   if (!v) return;
   let pisca = 0;
-  const cor = v.style.color;
+  const corAtual = v.style.color;
   const intervalo = setInterval(() => {
-    v.style.opacity = v.style.opacity === '0' ? '1' : '0';
+    v.style.color = pisca % 2 === 0 ? 'rgba(0,0,0,0)' : corAtual;
     pisca++;
     if (pisca >= 6) {
       clearInterval(intervalo);
-      v.style.opacity = '1';
-      v.style.color = cor;
+      v.style.color = corAtual; // garante que termina na cor correta
     }
   }, 100);
 }
