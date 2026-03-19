@@ -113,7 +113,7 @@ let logEventos         = [];
 let totalComprasSessao = 0;
 
 /* ================================================================
-   SOM — Web Audio API (sem arquivos externos)
+   SOM — Web Audio API 
 ================================================================ */
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 let audioCtx = null;
@@ -246,7 +246,7 @@ function iniciarJogo() {
 }
 
 /* ================================================================
-   PRATELEIRAS 3x3 — sem estoque real
+   PRATELEIRAS TRÊS POR TRÊS
 ================================================================ */
 function criarSlots() {
   const container = document.getElementById('shelves');
@@ -287,7 +287,7 @@ function criarSlots() {
 }
 
 /* ================================================================
-   CARTEIRA — 3 moedas fixas
+   CARTEIRA — 3 moedas fixas 1, 2 E 5
 ================================================================ */
 function gerarMoedasCarteira() {
   const carteira = document.getElementById('carteira');
@@ -400,7 +400,7 @@ function atualizarSlotsDisponiveis() {
 }
 
 /* ================================================================
-   CANCELAR — devolve saldo, mostra popup AFD só com continuar
+   CANCELAR — devolve saldo, mostra O relatório só com continuar
 ================================================================ */
 function cancelarCompra() {
   if (animando) return;
@@ -445,7 +445,7 @@ function comprar() {
   document.getElementById('botaoComprar').disabled = true;
 
   automato.transicao(Simbolo.porCodigo(codigo));
-  const troco = automato.saldo; // saldo restante após desconto = troco
+  const troco = automato.saldo; 
 
   somCompra();
   totalComprasSessao++;
