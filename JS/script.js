@@ -240,6 +240,12 @@ function iniciarJogo() {
     gerarMoedasCarteira();
     atualizarVisor();
     atualizarBotaoComprar();
+    atualizarSlotsDisponiveis();
+    // Garante opacity 1 em todos os slots ao iniciar
+    for (let i = 1; i <= 9; i++) {
+      const slot = document.getElementById(`slot-${i}`);
+      if (slot) slot.style.opacity = '1';
+    }
     adicionarLog('Máquina iniciada', 'system');
     adicionarLog('Clique numa moeda da carteira para inserir', 'system');
   }, 800);
@@ -396,8 +402,12 @@ function atualizarSlotsDisponiveis() {
     const pode = automato.podeComprar(Produto[SLOT_GRUPO[i]]);
     slot.classList.toggle('disponivel', pode);
     slot.style.cursor = pode ? 'pointer' : 'default';
-    // Só escurece se tiver saldo inserido mas não for suficiente pro grupo
-    slot.style.opacity = (automato.saldo > 0 && !pode) ? '0.5' : '1';
+    // Escurece apenas grupos que não podem ser comprados E há saldo inserido
+    if (automato.saldo === 0) {
+      slot.style.opacity = '1';
+    } else {
+      slot.style.opacity = pode ? '1' : '0.5';
+    }
   }
 }
 
